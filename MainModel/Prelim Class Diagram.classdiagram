@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="1eb63cc9-7bad-409a-a6fe-3fef7d1b7cc6" name="Prelim Class Diagram" linkedPackageId="c895fe99-8b50-42c1-b66a-7defd7dfcc24" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <ownedCommentsInternal>
+    <comment Id="955c9a7a-a2c8-484c-9ffd-856f9fc2a68b">
+      <elementDefinition Id="163f6e81-f055-45e1-a169-a395d0cabb00" />
+      <body>Observable</body>
+      <annotatedElements>
+        <classMoniker Id="943c9595-d36d-45ee-8b9b-1ccf510c073c" LastKnownName="GameModel" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance Id="2c1d4c2c-f6ed-405f-b3c7-b6b6c1b157aa" name="namespace" profile="CSharpProfile">
       <elementDefinition Id="363ecbac-e45c-405c-8c20-b7a7b0b9900a" />
@@ -72,32 +81,6 @@
       </propertyInstances>
     </stereotypeInstance>
   </appliedStereotypesInternal>
-  <profileInstances>
-    <packageHasProfileInstances Id="2582e09a-89a9-4425-a47c-27647928e380">
-      <profileInstance Id="ba9cc79a-3ffe-4305-a9af-c58a4c91657b" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="c782ab48-315f-4ac5-9ef3-a82e17e263cd">
-      <profileInstance Id="d45391ae-42f8-4bd2-a593-6ff7b42a794c" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="ea32edd2-02c9-4a79-a3dc-41211d263782">
-      <profileInstance Id="618822ea-db7e-4e94-ae7f-40f6fcadaea5" name="CSharpProfile">
-        <elementDefinition Id="9c10f12c-17e2-4138-b0bc-e97fbd222d2c" />
-      </profileInstance>
-      <elementDefinition Id="2eb8817d-dae9-432c-a30e-3d8eda0f5da0" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="56a694f4-2420-4a68-b901-8b706d4781f3">
-      <profileInstance Id="a7b04162-f103-4146-ae55-639c0ad01b21" name="TextTemplateBindings">
-        <elementDefinition Id="59356024-708d-406d-bab6-fe1bf96dd12b" />
-      </profileInstance>
-      <elementDefinition Id="c96874b0-c0b4-4e80-a6ef-f0b286fd72a4" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
       <class Id="f8e96c67-eb4e-4e72-9f1d-d0ba42415e7b" name="TheForm" isAbstract="false" isLeaf="false" isActiveClass="true">
@@ -837,6 +820,10 @@
             <classMoniker Id="943c9595-d36d-45ee-8b9b-1ccf510c073c" LastKnownName="GameModel" />
             <elementDefinition Id="b78d600e-7267-4a25-b53e-084bd4b6eaca" />
           </dependency>
+          <dependency Id="881f757c-a61f-4bc5-b4a4-798f6517c53b">
+            <classMoniker Id="c3698778-4a67-4de3-87af-71c91ca792f6" LastKnownName="SettingsStore" />
+            <elementDefinition Id="d39026fe-250b-442c-88e5-381872f7013a" />
+          </dependency>
         </suppliersInternal>
         <ownedAttributesInternal>
           <property Id="57201836-c182-40eb-877f-0ac009703610" name="model" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -856,9 +843,9 @@
             <enumerationMoniker Id="7622644e-089a-415a-8066-15aa7b7ac6b4" LastKnownName="PlayerAction" />
             <elementDefinition Id="4cfba1fc-50ac-41bf-bc61-444303b6b90e" />
           </dependency>
-          <dependency Id="55b8f89c-ad6b-4b6c-88a3-971d78341de9">
-            <packageMoniker Id="a404ac17-70f3-42fb-aee7-b3a0defea7e2" LastKnownName="Physics" />
-            <elementDefinition Id="8c863b5a-9336-4d8f-b44a-8f72f485c42c" />
+          <dependency Id="8deefbb1-e215-43f8-8b08-57c9f5adaebb">
+            <classMoniker Id="2ffcb604-1fd1-45e7-9d31-cb294b425464" LastKnownName="AbstractPhysics" />
+            <elementDefinition Id="95087f22-dd94-4965-ae09-32b32b39bb56" />
           </dependency>
         </suppliersInternal>
         <ownedOperationsInternal>
@@ -995,8 +982,45 @@
         <elementDefinition Id="80979a31-02d1-468d-9a5a-a7863c52642f" />
       </package>
     </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="2ffcb604-1fd1-45e7-9d31-cb294b425464" name="AbstractPhysics" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6f92a6c7-8b11-4938-bb53-7a7a0ffaf1f3" />
+        <suppliersInternal>
+          <dependency Id="a916dd54-032f-4fdb-b0e2-d08faad44ee5">
+            <packageMoniker Id="a404ac17-70f3-42fb-aee7-b3a0defea7e2" LastKnownName="Physics" />
+            <elementDefinition Id="8c6d360a-da61-4074-b8cc-3715d5dec8c2" />
+          </dependency>
+        </suppliersInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="c895fe99-8b50-42c1-b66a-7defd7dfcc24" name="MainModel">
     <elementDefinition Id="d40b7ac2-2fe8-4d32-a5d4-d4b5cf98a8df" />
+    <profileInstances>
+      <packageHasProfileInstances Id="2582e09a-89a9-4425-a47c-27647928e380">
+        <profileInstance Id="ba9cc79a-3ffe-4305-a9af-c58a4c91657b" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="c782ab48-315f-4ac5-9ef3-a82e17e263cd">
+        <profileInstance Id="d45391ae-42f8-4bd2-a593-6ff7b42a794c" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="ea32edd2-02c9-4a79-a3dc-41211d263782">
+        <profileInstance Id="618822ea-db7e-4e94-ae7f-40f6fcadaea5" name="CSharpProfile">
+          <elementDefinition Id="9c10f12c-17e2-4138-b0bc-e97fbd222d2c" />
+        </profileInstance>
+        <elementDefinition Id="2eb8817d-dae9-432c-a30e-3d8eda0f5da0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="56a694f4-2420-4a68-b901-8b706d4781f3">
+        <profileInstance Id="a7b04162-f103-4146-ae55-639c0ad01b21" name="TextTemplateBindings">
+          <elementDefinition Id="59356024-708d-406d-bab6-fe1bf96dd12b" />
+        </profileInstance>
+        <elementDefinition Id="c96874b0-c0b4-4e80-a6ef-f0b286fd72a4" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </logicalClassDesignerModel>
