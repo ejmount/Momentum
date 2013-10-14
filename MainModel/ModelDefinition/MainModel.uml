@@ -8,6 +8,16 @@
       Id="fa7adc85-7a25-4c66-b956-0905f2990d07">
       <body>For keybinding map</body>
     </comment>
+    <comment
+      Id="8e44b154-93a2-4ccd-986d-862c47efa13e">
+      <body>Facade on top of the normal Box2D physics library</body>
+      <annotatedElements>
+        <classMoniker
+          Id="6f92a6c7-8b11-4938-bb53-7a7a0ffaf1f3"
+          LastKnownName="AbstractPhysics"
+          LastKnownLocation="MainModel.uml" />
+      </annotatedElements>
+    </comment>
   </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance

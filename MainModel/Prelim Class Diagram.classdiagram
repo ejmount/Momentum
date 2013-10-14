@@ -5,6 +5,13 @@
       <elementDefinition Id="fa7adc85-7a25-4c66-b956-0905f2990d07" />
       <body>For keybinding map</body>
     </comment>
+    <comment Id="681a282a-0ebf-4fed-a144-3b7fedf755b7">
+      <elementDefinition Id="8e44b154-93a2-4ccd-986d-862c47efa13e" />
+      <body>Facade on top of the normal Box2D physics library</body>
+      <annotatedElements>
+        <classMoniker Id="2ffcb604-1fd1-45e7-9d31-cb294b425464" LastKnownName="AbstractPhysics" />
+      </annotatedElements>
+    </comment>
   </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance Id="2c1d4c2c-f6ed-405f-b3c7-b6b6c1b157aa" name="namespace" profile="CSharpProfile">
