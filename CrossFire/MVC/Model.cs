@@ -10,7 +10,7 @@ using Box2DX.Dynamics;
 
 namespace CrossFire.MVC
 {
-	class Model
+	public class Model
 	{
 		World theWorld;
 		static Vec2 defaultGravity = new Vec2(0.0f, -9.8f);
@@ -33,13 +33,34 @@ namespace CrossFire.MVC
 			theWorld = new World(bounds, gravity, true);
 		}
 
+		public void CreateEntity(Vec2 pos, Vec2 vel )
+		{
+
+			BodyDef bodydef = new BodyDef();
+			bodydef.Position = pos;
+			bodydef.LinearVelocity = vel;
+			bodydef.MassData = new MassData(){ Mass = 1 };
+			var B = theWorld.CreateBody(bodydef);
+
+			PolygonShape P = new PolygonShape();
+			P.SetAsBox(0.1f, 0.1f);
+
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.Density = 1.0f;
+			fixtureDef.Friction = 0.3f;
+
+			B.CreateFixture(fixtureDef);
+
+
+		}
+
 		public IEnumerable<Body> GetBodies()
 		{
 			return AbstractPhysics.GetBodies(theWorld);
 		}
 
 
-		public void Compute(float seconds, int iterations, float dx=1/60)
+		public void Compute(float seconds, int iterations, float dx=1/60.0f)
 		{
 			if (iterations <= 0) throw new ArgumentException();
 
