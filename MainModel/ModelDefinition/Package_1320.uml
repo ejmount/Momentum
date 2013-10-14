@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="169d6686-f373-42c9-9682-12065f699c9c"
+  name="Game MVC" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="ef2a87b5-7368-438b-bf1b-dd24da443945"
+        name="GameView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="94c9e8c0-bb1d-465b-b271-5abdd77d1eb9"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="eb3c63b4-dbc1-456a-83ac-e2af81cf14c4">
+                <propertyInstance
+                  Id="4f08b7fa-972f-45f0-bb93-37b6f76d606d"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="413970c0-fd11-4cdd-be7d-1bf27cfece9e">
+                <propertyInstance
+                  Id="651f777f-89d8-4b5c-88a5-70be58f15dfe"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e8f93f70-ca0e-42bb-96a0-b57202aa1ad0">
+                <propertyInstance
+                  Id="db0e35ee-2e57-44c0-81ad-cdfe77a1dad3"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7a7785a4-70d5-4980-b5ef-dc7ba244f7d9">
+                <propertyInstance
+                  Id="490b5059-49ac-42e5-83f4-c0dc627b034c"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b0a23c2f-8e9c-4788-98e2-264f0e25ecdd">
+                <propertyInstance
+                  Id="9558a01e-326b-4003-9763-fb857169dc6f"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <dependency
+            Id="0a49e0a7-3e72-4b3c-8f78-bb85e6aeff9f">
+            <classMoniker
+              Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+              LastKnownName="GameModel"
+              LastKnownLocation="Package_1320.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="eaaa722e-7fa4-4110-819b-d52d407f6f32"
+            name="model"
+            visibility="Protected"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+                LastKnownName="GameModel"
+                LastKnownLocation="Package_1320.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="617ea7de-965e-49b7-b548-b2467a4a510a"
+            name="draw"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="6dd5ce93-e8d9-4105-a646-4e28de13d030"
+                  name=" g"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="8f82f540-d5cf-48da-b0a3-5be171b27928"
+                      LastKnownName="System.Drawing.Graphics"
+                      LastKnownLocation="MainModel.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+        name="GameModel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="4cfba1fc-50ac-41bf-bc61-444303b6b90e">
+            <enumerationMoniker
+              Id="25f4bef9-3cf6-455c-b2cf-b127f09c4275"
+              LastKnownName="PlayerAction"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
+          <dependency
+            Id="95087f22-dd94-4965-ae09-32b32b39bb56">
+            <classMoniker
+              Id="6f92a6c7-8b11-4938-bb53-7a7a0ffaf1f3"
+              LastKnownName="AbstractPhysics"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="f92b40c9-dd90-48b4-879d-d957cf091068"
+            name="takePlayerAction"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="74f69527-7083-41a1-afc4-2064313bf789"
+                  name="player"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="69479af4-85c2-477e-b64d-2de2a32e0136"
+                      LastKnownName="int"
+                      LastKnownLocation="MainModel.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5dca10a7-c664-4890-9e5d-3ffd9fb46cb2"
+                  name="act"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="25f4bef9-3cf6-455c-b2cf-b127f09c4275"
+                      LastKnownName="PlayerAction"
+                      LastKnownLocation="MainModel.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2ca20d5a-9f5a-47bf-bfec-6d1b7d296ef3"
+        name="GameController"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="b78d600e-7267-4a25-b53e-084bd4b6eaca">
+            <classMoniker
+              Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+              LastKnownName="GameModel"
+              LastKnownLocation="Package_1320.uml" />
+          </dependency>
+          <dependency
+            Id="d39026fe-250b-442c-88e5-381872f7013a">
+            <classMoniker
+              Id="de8940a8-f56f-4f3b-a8de-3ba2ac728015"
+              LastKnownName="SettingsStore"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
+          <dependency
+            Id="dd31f7ef-3082-452e-b7c5-191eede88d86">
+            <enumerationMoniker
+              Id="25f4bef9-3cf6-455c-b2cf-b127f09c4275"
+              LastKnownName="PlayerAction"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="057686d1-2803-4831-b08d-4b03878dabc1"
+            name="model"
+            visibility="Protected"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+                LastKnownName="GameModel"
+                LastKnownLocation="Package_1320.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="24d3ede7-42bc-4091-920f-32a13f92b4f2"
+        name="RemoteController"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="e354b112-1629-4732-a19f-eaa85b5b93bb">
+            <packageMoniker
+              Id="e06ad946-f4d3-4278-8cb9-1c48ed753a78"
+              LastKnownName="External Host"
+              LastKnownLocation="Package1_1326.uml" />
+          </dependency>
+          <dependency
+            Id="ce790e7d-80c2-4b31-b87b-957d76c7a5dc">
+            <classMoniker
+              Id="172fed42-ba35-44a7-b1cc-264461ccc448"
+              LastKnownName="RemoteHostProxy"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
+        </suppliersInternal>
+        <generalsInternal>
+          <generalization
+            Id="c8336483-485a-492c-86b4-066cbfdbfa0d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="2ca20d5a-9f5a-47bf-bfec-6d1b7d296ef3"
+              LastKnownName="GameController"
+              LastKnownLocation="Package_1320.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d4a702d2-9422-4f6d-ae77-0fedc9d54174"
+        name="RemoteUpdater"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="62b61a77-f776-4415-87fa-74a11b267383">
+            <classMoniker
+              Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+              LastKnownName="GameModel"
+              LastKnownLocation="Package_1320.uml" />
+          </dependency>
+          <dependency
+            Id="dfe88c1b-9350-4a64-82e3-392f82b0539d">
+            <packageMoniker
+              Id="e06ad946-f4d3-4278-8cb9-1c48ed753a78"
+              LastKnownName="External Host"
+              LastKnownLocation="Package1_1326.uml" />
+          </dependency>
+          <dependency
+            Id="060d7538-9a29-4b43-8033-2ab24248b0dd">
+            <classMoniker
+              Id="172fed42-ba35-44a7-b1cc-264461ccc448"
+              LastKnownName="RemoteHostProxy"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

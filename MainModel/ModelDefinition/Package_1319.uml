@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="28d14f8c-0919-45bb-80e0-e8eaffaa2005"
+  name="Menu States" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="1ede14c7-22a4-42fa-999d-5e8dc6e3cb1e"
+        name="MenuState"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="b26d6c63-d540-40d4-a0dd-627328bcb2b3"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="614c3d8f-02ac-492d-ba40-eeec89daa1bc">
+                <propertyInstance
+                  Id="b17b95e4-a590-4fed-bc8a-b6b96a2b4746"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="37b9990b-a5ef-4d65-9748-781f2c09c398">
+                <propertyInstance
+                  Id="b4ff729e-17e5-4d18-86ce-da3d4b99ee34"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="297ecbdf-2f07-41c4-b146-d71b09b1fd46">
+                <propertyInstance
+                  Id="dfea5342-1d96-42e9-8c34-640ddab42d1d"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0603ec92-334b-4563-bc85-9f73e5757828">
+                <propertyInstance
+                  Id="636ea078-266a-4a2b-bedb-6fe6d5f27049"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a0cd3dd5-b500-4254-902c-fb530a4413c3">
+                <propertyInstance
+                  Id="f07e9ae9-2a22-4770-b088-2d7e26a3e266"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2f9b6a77-a273-40d7-ab8f-e8c139225943"
+        name="GameState"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <description>Represents a running game. </description>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="dc631106-5c92-4068-8733-3dbe33b5657d"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="264ae7f9-e849-4b8c-800b-0cddf46f1403">
+                <propertyInstance
+                  Id="519cfc61-91fd-4576-98dd-d144a117b040"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="166be69a-8d5c-48d3-9cc0-f802bf1a14f6">
+                <propertyInstance
+                  Id="eaa053f8-e938-4009-af07-226755475e74"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2ba3422f-a6ce-4db6-9366-b778581b0c07">
+                <propertyInstance
+                  Id="43044344-0487-4ef1-87f6-539249f0c35f"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a5475e53-b1e0-4f92-b66c-4a75f00f8b0b">
+                <propertyInstance
+                  Id="580f47a4-6907-4f51-b72f-966853937809"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0ac7fb41-80ca-4828-856a-b1b7579388ea">
+                <propertyInstance
+                  Id="f67a10cb-fe56-4e9a-a292-45f8a45eda22"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <dependency
+            Id="cab924e3-69a4-48ed-8cc0-cd65501b6b8e">
+            <classMoniker
+              Id="2ca20d5a-9f5a-47bf-bfec-6d1b7d296ef3"
+              LastKnownName="GameController"
+              LastKnownLocation="Package_1320.uml" />
+          </dependency>
+          <dependency
+            Id="e38478c8-0b27-47d3-aabc-6abb77674b78">
+            <classMoniker
+              Id="ef2a87b5-7368-438b-bf1b-dd24da443945"
+              LastKnownName="GameView"
+              LastKnownLocation="Package_1320.uml" />
+          </dependency>
+        </suppliersInternal>
+        <generalsInternal>
+          <generalization
+            Id="bca3a12d-facd-4c35-9833-514bd7256cee"
+            isSubstitutable="false">
+            <classMoniker
+              Id="1ede14c7-22a4-42fa-999d-5e8dc6e3cb1e"
+              LastKnownName="MenuState"
+              LastKnownLocation="Package_1319.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="5421d39a-4f32-455b-a495-a160d2972c9e"
+            name="render"
+            visibility="Protected"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="ef2a87b5-7368-438b-bf1b-dd24da443945"
+                LastKnownName="GameView"
+                LastKnownLocation="Package_1320.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="fc284a27-45e6-4781-9b24-fbb91936fd25"
+            name="controller"
+            visibility="Protected"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="2ca20d5a-9f5a-47bf-bfec-6d1b7d296ef3"
+                LastKnownName="GameController"
+                LastKnownLocation="Package_1320.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="852c5567-3a16-4aa5-903f-fcffb0027c69"
+        name="OptionState"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <description>Handles the user is currently looking at the option's menu, rather than the game</description>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="0b94d33a-0645-4791-9ac6-79e0a0aab99f"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e9aa1868-d36c-4d94-8a29-a12406967c7d">
+                <propertyInstance
+                  Id="1529f4b7-ad55-421f-948f-465786103c78"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7a98dfeb-894e-4e0c-bb07-3e9f9f9af223">
+                <propertyInstance
+                  Id="8c9bdb71-8563-4f53-bb17-51d5fd96de6d"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e18e5672-aa08-4c7d-a0a5-4ea2651de6b5">
+                <propertyInstance
+                  Id="9dd9c7da-58f5-46ec-bb14-43d463495545"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a3bccabe-b8b9-4e78-a689-2ab8beb82fcf">
+                <propertyInstance
+                  Id="30ae30cd-8373-49af-9bd8-2498fac11c38"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="725453e7-ffd6-4ba6-a3b4-a2e7b379c44c">
+                <propertyInstance
+                  Id="9015a36c-256c-45fa-849a-d1ef33b17a99"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="b18e1344-a78c-4aa1-be97-6d8d9258f286"
+            isSubstitutable="false">
+            <classMoniker
+              Id="1ede14c7-22a4-42fa-999d-5e8dc6e3cb1e"
+              LastKnownName="MenuState"
+              LastKnownLocation="Package_1319.uml" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association
+            Id="49b2a597-c715-4d3f-8921-289898780ab7"
+            isDerived="false"
+            sourceEndRoleName=""
+            targetEndRoleName=""
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="de8940a8-f56f-4f3b-a8de-3ba2ac728015"
+              LastKnownName="SettingsStore"
+              LastKnownLocation="MainModel.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="fcf343ee-7468-4fff-b5ad-399d14b189a0"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="true"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4c081cd6-082e-4dc8-96f8-2a7ca9d84440"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="58e5dd9c-593c-44ed-8ed9-ed1fc76c793e"
+        name="RootState"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <description>Handles looking at the main/root menu, before any other option is selected.</description>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="e4aab408-1fb6-4ccf-855c-3bd4b2806b69"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4c3df7ad-0a8d-4e4a-8442-74e31c753d5d">
+                <propertyInstance
+                  Id="b6612496-f15d-4794-9ff0-4366e117903a"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="27355e81-ae90-427c-886a-52baeb6a8635">
+                <propertyInstance
+                  Id="68311be5-5ce2-47e9-b2e8-a08a16a5a896"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="907a952a-f2b5-48a8-89bb-e16e2b7ce5fd">
+                <propertyInstance
+                  Id="30a85c2a-4f72-4094-9540-2ec366a91a10"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="6b938353-085d-41ba-afec-591cd3068dbc">
+                <propertyInstance
+                  Id="dd7d2abb-c500-4461-98fb-711f7f916709"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="060412fe-7113-4890-8458-c2e9944f4b75">
+                <propertyInstance
+                  Id="4dac4e87-fe74-4b2c-898d-c46d12b7d927"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="c4234128-1299-400b-a093-589022c1d2ee"
+            isSubstitutable="false">
+            <classMoniker
+              Id="1ede14c7-22a4-42fa-999d-5e8dc6e3cb1e"
+              LastKnownName="MenuState"
+              LastKnownLocation="Package_1319.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bc3aa02f-b0c2-4f9b-b59d-41605af305ee"
+        name="TheForm"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="true">
+        <description>The "main" class, the program's interface into the OS, user, etc.  Almsot certainly deriving from Form</description>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="bb9a5012-3300-4f05-8ef0-95a2d15c61bc"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d4b09601-2d01-4535-839a-d392f7262709">
+                <propertyInstance
+                  Id="4872ebc7-dab6-4a01-96d5-f7ae6b4bdca0"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="bfbad49c-c938-4b91-b88b-cc219d17607c">
+                <propertyInstance
+                  Id="fd8d85b2-1152-4476-8b79-565e8824f1b2"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f2cce1e1-7e48-450a-bff4-4bca0504c060">
+                <propertyInstance
+                  Id="e62e2c8a-fc7e-451a-8130-4c51015f4848"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="69e50f5e-8f0e-44b0-bd0e-82c16c8693ec">
+                <propertyInstance
+                  Id="c7df82c5-9f3e-4a41-ba73-cca183ad031f"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d7029a06-61f2-47a9-bfa0-4bdb7d0bda2e">
+                <propertyInstance
+                  Id="f52f6961-2b44-4c1a-9d55-594debb8f2ff"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <dependency
+            Id="4bdab54e-b973-48d4-b14a-1f0eb2836727">
+            <classMoniker
+              Id="1ede14c7-22a4-42fa-999d-5e8dc6e3cb1e"
+              LastKnownName="MenuState"
+              LastKnownLocation="Package_1319.uml" />
+          </dependency>
+        </suppliersInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="4c8b554c-970c-4085-9d74-a844ca35942d"
+            name="CurrentState"
+            visibility="Protected"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="e0e0b287-8751-480e-ab4b-4526d4b58b6b"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b7c6a994-8d9f-4eb6-a91b-38d2a1d00a22">
+                    <propertyInstance
+                      Id="db0c5790-1ac4-415b-a9f6-25ae4f52ceb2"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f9873f8e-b88f-4274-8063-25561b20933e">
+                    <propertyInstance
+                      Id="a818eb77-afd0-4d97-b2f0-62108f201e7a"
+                      name="Get"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6886580c-6cd5-4201-b13d-66f14a67a19e">
+                    <propertyInstance
+                      Id="f588191a-421d-463c-91d5-6916a538ff0a"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2ca256c1-7d57-4768-99b7-43a8aaa9ea87">
+                    <propertyInstance
+                      Id="740d298f-2cfa-49e2-9762-3f9ca4291b7d"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="22891bf9-a561-4e08-be51-ddbd3f30ba77">
+                    <propertyInstance
+                      Id="0862191a-1f8b-4b38-bec8-26bf1c883805"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bbba11d8-8c05-49bd-a958-4daa742e105d">
+                    <propertyInstance
+                      Id="cc812a34-c32c-41d4-b772-845747c566dd"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="da1b0de2-fe9c-4148-adec-aa9faaf06403">
+                    <propertyInstance
+                      Id="4dff3925-f69f-44c6-be4c-3edf92420d7a"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="1ede14c7-22a4-42fa-999d-5e8dc6e3cb1e"
+                LastKnownName="MenuState"
+                LastKnownLocation="Package_1319.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

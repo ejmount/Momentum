@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:///C:/PROGRAM FILES (X86)/MICROSOFT VISUAL STUDIO 11.0/COMMON7/IDE/EXTENSIONS/MICROSOFT/ARCHITECTURE TOOLS/EXTENSIBILITY/Logging/CodeGenLog.xslt"?>
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="Code Generation/Text Transformation Log">
+  <MessageClass Name="Message" Label="Message" Option="Show informational messages" />
+  <MessageClass Name="Warning" Label="Warning" Option="Show warnings" />
+  <MessageClass Name="Error" Label="Error" Option="Show errors" />
+  <MessageClass Name="Property" Label="Property" Option="Show metadata" />
+  <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="High" Text="Code generation or text transformation started." />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="Name = ClassTemplate" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="ProjectPath = ..\MainModelLib\MainModelLib.csproj" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Medium" Text="MainModel's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'MainModel::TheForm' -  (Class), 'MainModel::SettingsStore' -  (Class), 'MainModel::MenuState' -  (Class), 'MainModel::RootState' -  (Class), 'MainModel::GameState' -  (Class), 'MainModel::OptionState' -  (Class) " />
+  <Message Timestamp="2013-10-13T00:51:23" Importance="Medium" Text="'MainModel::TheForm' -  (Class) : success (file replaced) - C:\Users\Ewan\documents\visual studio 2012\Projects\C#\Crossfire\MainModelLib\GeneratedCode\TheForm.cs" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Medium" Text="'MainModel::SettingsStore' -  (Class) : success (file replaced) - C:\Users\Ewan\documents\visual studio 2012\Projects\C#\Crossfire\MainModelLib\GeneratedCode\SettingsStore.cs" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Medium" Text="'MainModel::MenuState' -  (Class) : success (file replaced) - C:\Users\Ewan\documents\visual studio 2012\Projects\C#\Crossfire\MainModelLib\GeneratedCode\MenuState.cs" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Medium" Text="'MainModel::RootState' -  (Class) : success (file replaced) - C:\Users\Ewan\documents\visual studio 2012\Projects\C#\Crossfire\MainModelLib\GeneratedCode\RootState.cs" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Medium" Text="'MainModel::GameState' -  (Class) : success (file replaced) - C:\Users\Ewan\documents\visual studio 2012\Projects\C#\Crossfire\MainModelLib\GeneratedCode\GameState.cs" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Medium" Text="'MainModel::OptionState' -  (Class) : success (file replaced) - C:\Users\Ewan\documents\visual studio 2012\Projects\C#\Crossfire\MainModelLib\GeneratedCode\OptionState.cs" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="Name = StructTemplate" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="ProjectPath = ..\MainModelLib\MainModelLib.csproj" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Medium" Text="MainModel's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'MainModel::TheForm' -  (Class), 'MainModel::SettingsStore' -  (Class), 'MainModel::MenuState' -  (Class), 'MainModel::RootState' -  (Class), 'MainModel::GameState' -  (Class), 'MainModel::OptionState' -  (Class) " />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::TheForm' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::SettingsStore' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::MenuState' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::RootState' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::GameState' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::OptionState' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="The selection included 4 elements which were not bound to a template." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'c4234128-1299-400b-a093-589022c1d2ee' -  (Generalization): no bound template." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'bca3a12d-facd-4c35-9833-514bd7256cee' -  (Generalization): no bound template." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'b18e1344-a78c-4aa1-be97-6d8d9258f286' -  (Generalization): no bound template." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="Diagnostic" Text="'MainModel::' -  (Association): no bound template." />
+  <Message Timestamp="2013-10-13T00:51:24" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+</Log>
