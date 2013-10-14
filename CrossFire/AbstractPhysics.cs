@@ -60,7 +60,8 @@ namespace CrossFire
 			{
 				if (cur == null)
 					cur = head;
-				cur = cur.GetNext();
+				else 
+					cur = cur.GetNext();
 				return (cur != null);
 			}
 
