@@ -8,72 +8,23 @@ namespace CrossFire
 	/// </summary>
 	public class AbstractPhysics
 	{
-		private class BodyEnumerable : IEnumerable<Body>
-		{
-			protected World _W;
-			protected BodyEnumerator e;
-
-			public BodyEnumerable(World W)
-			{
-				_W = W;
-				e = new BodyEnumerator(W);
-			}
-
-			IEnumerator<Body> IEnumerable<Body>.GetEnumerator()
-			{
-				return e;
-			}
-
-			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-			{
-				return e;
-			}
-		}
-
-		private class BodyEnumerator : IEnumerator<Body>
-		{
-			protected World _W;
-			protected Body head;
-			protected Body cur;
-
-			public BodyEnumerator(World W)
-			{
-				_W = W;
-				head = _W.GetBodyList();
-			}
-
-			public Body Current
-			{
-				get { return cur; }
-			}
-
-			public void Dispose()
-			{
-			}
-
-			object System.Collections.IEnumerator.Current
-			{
-				get { return (object)cur; }
-			}
-
-			public bool MoveNext()
-			{
-				if (cur == null)
-					cur = head;
-				else 
-					cur = cur.GetNext();
-				return (cur != null);
-			}
-
-			public void Reset()
-			{
-				cur = null;
-			}
-		}
-
+		/// <summary>
+		/// Produces an Enumerable for all of the bodies in a given World. 
+		/// </summary>
+		/// <param name="W"></param>
+		/// <returns></returns>
 		public static IEnumerable<Body> GetBodies(World W)
 		{
-			return new BodyEnumerable(W);
+			//return new BodyEnumerable(W);
+
+			var b = W.GetBodyList();
+			do
+			{
+				yield return b;
+				b = b.GetNext();
+			}
+			while (b != null);
+
 		}
 	}
 }
