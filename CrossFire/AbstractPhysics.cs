@@ -15,8 +15,6 @@ namespace CrossFire
 		/// <returns></returns>
 		public static IEnumerable<Body> GetBodies(World W)
 		{
-			//return new BodyEnumerable(W);
-
 			var b = W.GetBodyList();
 			do
 			{
