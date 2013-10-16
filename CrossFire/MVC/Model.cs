@@ -33,7 +33,7 @@ namespace CrossFire.MVC
 			theWorld = new World(bounds, gravity, true);
 		}
 
-		public void CreateEntity(Vec2 pos, Vec2 vel )
+		public Body CreateEntity(Vec2 pos, Vec2 vel )
 		{
 
 			BodyDef bodydef = new BodyDef();
@@ -43,14 +43,14 @@ namespace CrossFire.MVC
 			var B = theWorld.CreateBody(bodydef);
 
 			PolygonShape P = new PolygonShape();
-			P.SetAsBox(0.1f, 0.1f);
+			P.SetAsBox(0.05f, 0.05f);
 
-			FixtureDef fixtureDef = new FixtureDef();
+			FixtureDef fixtureDef = new PolygonDef() { Vertices = P.Vertices, VertexCount = P.VertexCount };
 			fixtureDef.Density = 1.0f;
 			fixtureDef.Friction = 0.3f;
 
 			B.CreateFixture(fixtureDef);
-
+			return B;
 
 		}
 
