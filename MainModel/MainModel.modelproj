@@ -37,12 +37,22 @@
     <Content Include="ModelDefinition\Package_1326.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="ModelDefinition\Package_2150.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Prelim Class Diagram.classdiagram">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Prelim Class Diagram.classdiagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>Prelim Class Diagram.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="UMLActivityDiagram1.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="UMLActivityDiagram1.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>UMLActivityDiagram1.activitydiagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\MainModel.uml">

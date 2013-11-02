@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="1eb63cc9-7bad-409a-a6fe-3fef7d1b7cc6" name="Prelim Class Diagram" linkedPackageId="c895fe99-8b50-42c1-b66a-7defd7dfcc24" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" dslVersion="1.0.0.0" Id="1eb63cc9-7bad-409a-a6fe-3fef7d1b7cc6" name="Prelim Class Diagram" linkedPackageId="c895fe99-8b50-42c1-b66a-7defd7dfcc24" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <ownedCommentsInternal>
     <comment Id="77bb1486-e65a-452b-99c4-bf8901ad7d66">
       <elementDefinition Id="fa7adc85-7a25-4c66-b956-0905f2990d07" />
@@ -737,30 +737,18 @@
                 </stereotypeInstance>
               </appliedStereotypesInternal>
               <elementDefinition Id="852c5567-3a16-4aa5-903f-fcffb0027c69" />
+              <suppliersInternal>
+                <dependency Id="a1f2345d-dd03-4e5c-a8b1-9b126d87de8b">
+                  <classMoniker Id="c3698778-4a67-4de3-87af-71c91ca792f6" LastKnownName="SettingsStore" />
+                  <elementDefinition Id="012b188c-277e-4fd7-bd88-d20f7f3ccf57" />
+                </dependency>
+              </suppliersInternal>
               <generalsInternal>
                 <generalization Id="0767cb47-2b64-4650-80e9-349de42f5f34" isSubstitutable="false">
                   <classMoniker Id="546a0d30-eb70-49cd-9ffc-f5f712b27261" LastKnownName="MenuState" />
                   <elementDefinition Id="b18e1344-a78c-4aa1-be97-6d8d9258f286" />
                 </generalization>
               </generalsInternal>
-              <targetEnds>
-                <association Id="d0f3eefc-942a-49df-8bcd-c55a7b142f20" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
-                  <classMoniker Id="c3698778-4a67-4de3-87af-71c91ca792f6" LastKnownName="SettingsStore" />
-                  <relationshipOwnedElementsInternal>
-                    <associationHasOwnedEnds>
-                      <memberEnd Id="e3d0b9ef-2ecd-4533-bf79-5e3de2cc5d4c" isLeaf="false" isStatic="false" isReadOnly="true" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                        <elementDefinition Id="fcf343ee-7468-4fff-b5ad-399d14b189a0" />
-                      </memberEnd>
-                    </associationHasOwnedEnds>
-                    <associationHasOwnedEnds>
-                      <memberEnd Id="1bc664ed-fe35-4255-9d34-8ca50ae0d0ab" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                        <elementDefinition Id="4c081cd6-082e-4dc8-96f8-2a7ca9d84440" />
-                      </memberEnd>
-                    </associationHasOwnedEnds>
-                  </relationshipOwnedElementsInternal>
-                  <elementDefinition Id="49b2a597-c715-4d3f-8921-289898780ab7" />
-                </association>
-              </targetEnds>
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
@@ -921,6 +909,10 @@
                   <classMoniker Id="943c9595-d36d-45ee-8b9b-1ccf510c073c" LastKnownName="GameModel" />
                   <elementDefinition Id="0a49e0a7-3e72-4b3c-8f78-bb85e6aeff9f" />
                 </dependency>
+                <dependency Id="e5191dbe-57aa-4393-a336-760147606636">
+                  <classMoniker Id="6a97a349-d59d-44ad-8adf-9a380e58860e" LastKnownName="AbstractRenderer" />
+                  <elementDefinition Id="76e52de2-00bc-48dd-aa19-5cf4a706bd87" />
+                </dependency>
               </suppliersInternal>
               <ownedAttributesInternal>
                 <property Id="cdf11354-a35e-4106-9ebb-40f4b80bad2e" name="model" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -1001,6 +993,10 @@
                   <enumerationMoniker Id="7622644e-089a-415a-8066-15aa7b7ac6b4" LastKnownName="PlayerAction" />
                   <elementDefinition Id="dd31f7ef-3082-452e-b7c5-191eede88d86" />
                 </dependency>
+                <dependency Id="a06e1504-820c-4622-9f46-8509f8eae089">
+                  <classMoniker Id="85cdadbd-a2c5-4bd3-b26e-9540ae438b3a" LastKnownName="RemoteHostProxy" />
+                  <elementDefinition Id="ded5a028-73d5-45bc-b996-00968f6765a5" />
+                </dependency>
               </suppliersInternal>
               <ownedAttributesInternal>
                 <property Id="57201836-c182-40eb-877f-0ac009703610" name="model" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -1020,6 +1016,10 @@
                   <classMoniker Id="85cdadbd-a2c5-4bd3-b26e-9540ae438b3a" LastKnownName="RemoteHostProxy" />
                   <elementDefinition Id="ce790e7d-80c2-4b31-b87b-957d76c7a5dc" />
                 </dependency>
+                <dependency Id="34fc6d1b-ebee-474c-a59e-47155841ac8d">
+                  <classMoniker Id="943c9595-d36d-45ee-8b9b-1ccf510c073c" LastKnownName="GameModel" />
+                  <elementDefinition Id="4dd0e941-00b5-481c-838e-61b04c1ca1a2" />
+                </dependency>
               </suppliersInternal>
               <generalsInternal>
                 <generalization Id="ae449659-e95e-4762-93ce-189082a38fc4" isSubstitutable="false">
@@ -1027,21 +1027,6 @@
                   <elementDefinition Id="c8336483-485a-492c-86b4-066cbfdbfa0d" />
                 </generalization>
               </generalsInternal>
-            </class>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
-            <class Id="8167ad44-1871-402c-8328-6a2c52fd7a30" name="RemoteUpdater" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <elementDefinition Id="d4a702d2-9422-4f6d-ae77-0fedc9d54174" />
-              <suppliersInternal>
-                <dependency Id="ac65d2ff-fedc-4ade-94f0-5f95633cf909">
-                  <classMoniker Id="943c9595-d36d-45ee-8b9b-1ccf510c073c" LastKnownName="GameModel" />
-                  <elementDefinition Id="62b61a77-f776-4415-87fa-74a11b267383" />
-                </dependency>
-                <dependency Id="4e44c5c7-0a04-45b4-bfd7-6498e84146bf">
-                  <classMoniker Id="85cdadbd-a2c5-4bd3-b26e-9540ae438b3a" LastKnownName="RemoteHostProxy" />
-                  <elementDefinition Id="060d7538-9a29-4b43-8033-2ab24248b0dd" />
-                </dependency>
-              </suppliersInternal>
             </class>
           </packageHasNamedElement>
         </packagedElements>
@@ -1052,6 +1037,18 @@
         <elementDefinition Id="172fed42-ba35-44a7-b1cc-264461ccc448" />
       </class>
     </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="72431ca6-22f2-40f3-a0be-dd1ea04ad0f0" name="Renderers">
+        <elementDefinition Id="ce000df7-aaf8-4429-92e6-7b8fbdb7e8f4" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="6a97a349-d59d-44ad-8adf-9a380e58860e" name="AbstractRenderer" isAbstract="true" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="88ae8f2c-1d41-4df3-b952-03d6e9bb2f69" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
   </packagedElements>
   <package Id="c895fe99-8b50-42c1-b66a-7defd7dfcc24" name="MainModel">
     <elementDefinition Id="d40b7ac2-2fe8-4d32-a5d4-d4b5cf98a8df" />

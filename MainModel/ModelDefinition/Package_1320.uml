@@ -62,6 +62,13 @@
               LastKnownName="GameModel"
               LastKnownLocation="Package_1320.uml" />
           </dependency>
+          <dependency
+            Id="76e52de2-00bc-48dd-aa19-5cf4a706bd87">
+            <classMoniker
+              Id="88ae8f2c-1d41-4df3-b952-03d6e9bb2f69"
+              LastKnownName="AbstractRenderer"
+              LastKnownLocation="Package_2150.uml" />
+          </dependency>
         </suppliersInternal>
         <ownedAttributesInternal>
           <property
@@ -208,6 +215,13 @@
               LastKnownName="PlayerAction"
               LastKnownLocation="MainModel.uml" />
           </dependency>
+          <dependency
+            Id="ded5a028-73d5-45bc-b996-00968f6765a5">
+            <classMoniker
+              Id="172fed42-ba35-44a7-b1cc-264461ccc448"
+              LastKnownName="RemoteHostProxy"
+              LastKnownLocation="MainModel.uml" />
+          </dependency>
         </suppliersInternal>
         <ownedAttributesInternal>
           <property
@@ -253,6 +267,13 @@
               Id="172fed42-ba35-44a7-b1cc-264461ccc448"
               LastKnownName="RemoteHostProxy"
               LastKnownLocation="MainModel.uml" />
+          </dependency>
+          <dependency
+            Id="4dd0e941-00b5-481c-838e-61b04c1ca1a2">
+            <classMoniker
+              Id="ee8d1545-a4e1-42c6-a028-26d81e71f6af"
+              LastKnownName="GameModel"
+              LastKnownLocation="Package_1320.uml" />
           </dependency>
         </suppliersInternal>
         <generalsInternal>

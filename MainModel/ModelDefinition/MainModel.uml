@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="d40b7ac2-2fe8-4d32-a5d4-d4b5cf98a8df"
   name="MainModel" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -679,6 +679,254 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="ce000df7-aaf8-4429-92e6-7b8fbdb7e8f4"
+        LastKnownName="Renderers"
+        LastKnownLocation="Package_2150.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="3d7b88c2-3cce-408e-aee5-e17ea044b7e7"
+        name="Activity1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <opaqueAction
+            Id="09cf56c0-cc66-4e8f-9a61-533a347dc6c7"
+            name="Form"
+            isLeaf="false">
+            <pins>
+              <opaqueActionHasOutputValues>
+                <outputPin
+                  Id="3eb84144-737c-4c5e-85c5-689686407597"
+                  name="Keypresses"
+                  isLeaf="false"
+                  ordering="Unordered"
+                  isControlType="false"
+                  isControl="false">
+                  <objectFlowTargets>
+                    <objectFlow
+                      Id="d2972975-3620-43f1-beec-5e7eba53322e"
+                      isLeaf="false"
+                      isMulticast="false"
+                      isMultireceive="false">
+                      <opaqueActionMoniker
+                        Id="e21f133f-c411-46d5-b425-ec8297e64047"
+                        LastKnownName="FormState"
+                        LastKnownLocation="MainModel.uml" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger
+                      Id="60122647-d7aa-42e9-ad39-3d632eca917c"
+                      name="2147483647"
+                      value="2147483647" />
+                  </upperBound>
+                </outputPin>
+              </opaqueActionHasOutputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction
+            Id="e21f133f-c411-46d5-b425-ec8297e64047"
+            name="FormState"
+            isLeaf="false">
+            <pins>
+              <opaqueActionHasOutputValues>
+                <outputPin
+                  Id="d5c3e769-78c3-4f19-b568-e181e697f2d9"
+                  name="Keypresses"
+                  isLeaf="false"
+                  ordering="Unordered"
+                  isControlType="false"
+                  isControl="false">
+                  <objectFlowTargets>
+                    <objectFlow
+                      Id="20fb11b7-b8e6-4efc-909d-1e0b8896d86a"
+                      isLeaf="false"
+                      isMulticast="false"
+                      isMultireceive="false">
+                      <opaqueActionMoniker
+                        Id="8fb8bce7-3b26-437d-aec3-276d7c966314"
+                        LastKnownName="Controller"
+                        LastKnownLocation="MainModel.uml" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger
+                      Id="bc7e8131-fc5d-46df-bca0-607b990fa79b"
+                      name="2147483647"
+                      value="2147483647" />
+                  </upperBound>
+                </outputPin>
+              </opaqueActionHasOutputValues>
+              <opaqueActionHasOutputValues>
+                <outputPin
+                  Id="9533a857-43cb-4eb6-8633-318465c83aae"
+                  name="Game Render"
+                  isLeaf="false"
+                  ordering="Unordered"
+                  isControlType="false"
+                  isControl="false">
+                  <objectFlowTargets>
+                    <objectFlow
+                      Id="f20bf9cb-55f8-4f83-acb6-58b27d77976c"
+                      isLeaf="false"
+                      isMulticast="false"
+                      isMultireceive="false">
+                      <opaqueActionMoniker
+                        Id="09cf56c0-cc66-4e8f-9a61-533a347dc6c7"
+                        LastKnownName="Form"
+                        LastKnownLocation="MainModel.uml" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger
+                      Id="d59a2ebf-717c-4762-8678-481327804b84"
+                      name="2147483647"
+                      value="2147483647" />
+                  </upperBound>
+                </outputPin>
+              </opaqueActionHasOutputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction
+            Id="8fb8bce7-3b26-437d-aec3-276d7c966314"
+            name="Controller"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="d9143bdd-34b2-4333-9a91-4c789ab95284"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="ea3e98cc-6b2e-4a46-8b27-92d060449956"
+                  LastKnownName="SettingsStore"
+                  LastKnownLocation="MainModel.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+            <pins>
+              <opaqueActionHasOutputValues>
+                <outputPin
+                  Id="76064659-94b0-46f1-8730-3bd27f1b1bf7"
+                  name="PlayerActions"
+                  isLeaf="false"
+                  ordering="Unordered"
+                  isControlType="false"
+                  isControl="false">
+                  <objectFlowTargets>
+                    <objectFlow
+                      Id="450fd7e6-7f69-4bf5-affd-83219d240022"
+                      isLeaf="false"
+                      isMulticast="false"
+                      isMultireceive="false">
+                      <opaqueActionMoniker
+                        Id="0054b34b-7058-4e28-9e42-f5e00832997f"
+                        LastKnownName="Model"
+                        LastKnownLocation="MainModel.uml" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger
+                      Id="aeb5e846-f99a-4c70-b772-b586ebe0eb87"
+                      name="2147483647"
+                      value="2147483647" />
+                  </upperBound>
+                </outputPin>
+              </opaqueActionHasOutputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction
+            Id="ea3e98cc-6b2e-4a46-8b27-92d060449956"
+            name="SettingsStore"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="75e22e8b-d3a2-4852-88c6-17f8e54b6cb2"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="8fb8bce7-3b26-437d-aec3-276d7c966314"
+                  LastKnownName="Controller"
+                  LastKnownLocation="MainModel.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="0054b34b-7058-4e28-9e42-f5e00832997f"
+            name="Model"
+            isLeaf="false">
+            <pins>
+              <opaqueActionHasOutputValues>
+                <outputPin
+                  Id="9bfb9326-e5d9-4438-8066-1899fce584c6"
+                  name="State"
+                  isLeaf="false"
+                  ordering="Unordered"
+                  isControlType="false"
+                  isControl="false">
+                  <objectFlowTargets>
+                    <objectFlow
+                      Id="b80e5be3-95c1-4f40-8756-3da600b7f73c"
+                      isLeaf="false"
+                      isMulticast="false"
+                      isMultireceive="false">
+                      <opaqueActionMoniker
+                        Id="4c6512c9-b602-46e3-aad9-88d60d371fbb"
+                        LastKnownName="View"
+                        LastKnownLocation="MainModel.uml" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger
+                      Id="95241dcd-1909-489c-8526-b4fdf3338f5c"
+                      name="2147483647"
+                      value="2147483647" />
+                  </upperBound>
+                </outputPin>
+              </opaqueActionHasOutputValues>
+            </pins>
+          </opaqueAction>
+          <opaqueAction
+            Id="4c6512c9-b602-46e3-aad9-88d60d371fbb"
+            name="View"
+            isLeaf="false">
+            <pins>
+              <opaqueActionHasOutputValues>
+                <outputPin
+                  Id="6ea27011-b0f0-48ca-b21c-b2de4ea43174"
+                  name="Game Render"
+                  isLeaf="false"
+                  ordering="Unordered"
+                  isControlType="false"
+                  isControl="false">
+                  <objectFlowTargets>
+                    <objectFlow
+                      Id="9ff9cee7-a530-4faf-a37b-4381940cc134"
+                      isLeaf="false"
+                      isMulticast="false"
+                      isMultireceive="false">
+                      <opaqueActionMoniker
+                        Id="e21f133f-c411-46d5-b425-ec8297e64047"
+                        LastKnownName="FormState"
+                        LastKnownLocation="MainModel.uml" />
+                    </objectFlow>
+                  </objectFlowTargets>
+                  <upperBound>
+                    <literalInteger
+                      Id="f3d2461d-d7c4-481b-a84b-01357dfd82e5"
+                      name="2147483647"
+                      value="2147483647" />
+                  </upperBound>
+                </outputPin>
+              </opaqueActionHasOutputValues>
+            </pins>
+          </opaqueAction>
+        </nodes>
+      </activity>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
