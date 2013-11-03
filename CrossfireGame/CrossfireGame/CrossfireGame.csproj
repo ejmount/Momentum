@@ -107,16 +107,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractPhysics.cs" />
+    <Compile Include="GameMenu.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="RootMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Box2D\Box2DX.csproj">
+      <Project>{c157bca5-bac7-455f-a7de-59d506d46ecf}</Project>
+      <Name>Box2DX</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrossfireGameContent\CrossfireGameContent.contentproj">
       <Name>CrossfireGameContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

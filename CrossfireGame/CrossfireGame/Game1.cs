@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace CrossfireGame
 {
@@ -16,19 +10,29 @@ namespace CrossfireGame
 	/// </summary>
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
-		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+		private Dictionary<Type, GameState> gameStateCache = new Dictionary<Type, GameState>();
 
-		Texture2D foo;
+		public void ChangeState(Type stateType)
+		{
+			if (!stateType.IsSubclassOf(typeof(GameState)))
+				throw new ArgumentException();
 
-		Matrix identity = Matrix.Identity;
-		Matrix rotate = Matrix.CreateRotationZ((float)Math.PI);
+			if (!gameStateCache.ContainsKey(stateType))
+			{
+				var cons = stateType.GetConstructor(new Type[] { this.GetType() });
+				gameStateCache[stateType] = (GameState)cons.Invoke(new object[] { this });
+			}
 
+			currentState = gameStateCache[stateType];
+		}
+
+		private GameState currentState;
 
 		public Game1()
 		{
-			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
+
+			currentState = new RootMenu(this);
 		}
 
 		/// <summary>
@@ -42,11 +46,6 @@ namespace CrossfireGame
 			// TODO: Add your initialization logic here
 
 			base.Initialize();
-
-			identity = Matrix.CreateTranslation(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2, 0);
-
-			rotate = rotate * Matrix.CreateTranslation(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2, 0);
-
 		}
 
 		/// <summary>
@@ -56,9 +55,6 @@ namespace CrossfireGame
 		protected override void LoadContent()
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
-			spriteBatch = new SpriteBatch(GraphicsDevice);
-
-			foo = this.Content.Load<Texture2D>("Image1");
 
 			// TODO: use this.Content to load your game content here
 		}
@@ -82,8 +78,10 @@ namespace CrossfireGame
 			// Allows the game to exit
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
 				this.Exit();
-
+			
 			// TODO: Add your update logic here
+
+			currentState.Update(gameTime);
 
 			base.Update(gameTime);
 		}
@@ -94,17 +92,7 @@ namespace CrossfireGame
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
-
-
-			if (Keyboard.GetState().IsKeyDown(Keys.A))
-				spriteBatch.Begin( SpriteSortMode.Deferred, null, null, null, null, null, rotate);
-			else
-				spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, identity);
-
-			spriteBatch.Draw(foo, Vector2.Zero, Color.White);
-			spriteBatch.End();
-
+			currentState.Draw(gameTime);
 
 			// TODO: Add your drawing code here
 
