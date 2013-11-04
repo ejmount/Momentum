@@ -3,12 +3,12 @@ using Box2DX.Dynamics;
 using Box2DX.Common;
 using Box2DX.Collision;
 
-namespace CrossFire
+namespace CrossfireGame
 {
 	/// <summary>
 	/// A facade layer between the model and the full Box2DX library, providing helper functions. 
 	/// </summary>
-	public class AbstractPhysics
+	public static class AbstractPhysics
 	{
 		/// <summary>
 		/// Produces an Enumerable for all of the bodies in a given World. 
@@ -27,8 +27,19 @@ namespace CrossFire
 
 		}
 
+		public static IEnumerable<Fixture> GetFixtures(Body B)
+		{
+			var J = B.GetFixtureList();
+			do
+			{
+				yield return J;
+				J = J.Next;
+			}
+			while (J != null);
+		}
 
-		public Body CreateEntity(World W, float w, float h, Vec2 pos, Vec2 vel)
+
+		public static Body CreateEntity(World W, float w, float h, Vec2 pos, Vec2 vel)
 		{
 			BodyDef bodydef = new BodyDef();
 			bodydef.Position = pos;
