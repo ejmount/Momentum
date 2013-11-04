@@ -15,6 +15,7 @@ using Box2DX.Collision;
 
 namespace CrossfireGame
 {
+	[MenuItem("Start Game",1)]
 	class GameMenu : GameState
 	{
 		const int PHYSICS_ITERATIONS = 5;
