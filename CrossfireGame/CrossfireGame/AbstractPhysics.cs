@@ -20,8 +20,11 @@ namespace CrossfireGame
 			var b = W.GetBodyList();
 			do
 			{
-				yield return b;
-				b = b.GetNext();
+				if (b != null)
+				{
+					yield return b;
+					b = b.GetNext();
+				}
 			}
 			while (b != null);
 
@@ -32,8 +35,11 @@ namespace CrossfireGame
 			var J = B.GetFixtureList();
 			do
 			{
-				yield return J;
-				J = J.Next;
+				if (J != null)
+				{
+					yield return J;
+					J = J.Next;
+				}
 			}
 			while (J != null);
 		}
