@@ -44,27 +44,36 @@ namespace CrossfireGame
 			while (J != null);
 		}
 
+        static int n = 0;
 
-		public static Body CreateEntity(World W, float w, float h, Vec2 pos, Vec2 vel)
+		public static Body CreateEntity(World W, float width, float height, 
+            Vec2 pos, Vec2 vel, 
+            float mass = 1, float density = 1, float friction = 0.3f)
 		{
 			BodyDef bodydef = new BodyDef();
 			bodydef.Position = pos;
 			bodydef.LinearVelocity = vel;
-			bodydef.MassData = new MassData() { Mass = 1 };
+			bodydef.MassData = new MassData() { Mass = mass };
+
 			var B = W.CreateBody(bodydef);
 
 			PolygonShape P = new PolygonShape();
-			P.SetAsBox(w, h);
+			P.SetAsBox(width/2, height/2);
 
 			FixtureDef fixtureDef = new PolygonDef() { Vertices = P.Vertices, VertexCount = P.VertexCount };
-			fixtureDef.Density = 1.0f;
-			fixtureDef.Friction = 0.3f;
+            fixtureDef.Density = density;
+			fixtureDef.Friction = friction;
+            fixtureDef.Restitution = 1f;
 
 			B.CreateFixture(fixtureDef);
+
+            B.SetUserData(n++);
+
 			return B;
 
 		}
 
+         
 
 	}
 }
