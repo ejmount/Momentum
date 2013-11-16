@@ -63,7 +63,7 @@ namespace CrossfireGame
 			float currentHeight = MENU_HEIGHT;
 
 			sb.Begin();
-			foreach(var curOptionindex in Options.Select( (T, i) => Tuple.Create(i, T)))
+			foreach(var curOptionindex in Enumerate(Options))
 			{
 				var curOption = curOptionindex.Item2;
 				var size = MenuFont.MeasureString(curOption.Item1.Name);
@@ -93,6 +93,14 @@ namespace CrossfireGame
 			return v;
 		}
 
+        private IEnumerable<Tuple<int, T>> Enumerate<T>(IEnumerable<T> e)
+        {
+            int i = 0;
+            foreach (var item in e)
+            {
+                yield return Tuple.Create(i++, item);
+            }
+        }
 
 		public override void Update(GameTime time)
 		{
