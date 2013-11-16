@@ -35,15 +35,19 @@ namespace CrossfireGame
 		private GameState currentState;
 
 		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
-
+		
 	
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+
 			currentState = new RootMenu(this);
+
+
 		}
 
 		/// <summary>
