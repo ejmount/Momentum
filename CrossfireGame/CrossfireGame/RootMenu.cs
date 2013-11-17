@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace CrossfireGame
 {
-	class RootMenu : GameState
+	internal class RootMenu : GameState
 	{
-		List<Tuple<MenuItem, Type>> Options = new List<Tuple<MenuItem, Type>>();
-		int currentOption = 0;
+		private List<Tuple<MenuItem, Type>> Options = new List<Tuple<MenuItem, Type>>();
+		private int currentOption = 0;
 
 		public RootMenu(Game1 g)
-			: base(g) 
+			: base(g)
 		{
 			// ============================================================
 			// Get all of the types which have a MenuItem attribute, and then sort them into the correct order
@@ -25,8 +24,7 @@ namespace CrossfireGame
 			// ============================================================
 			var MenuItemTypes = Assembly.GetExecutingAssembly().GetTypes()
 				.Where(T => T.IsSubclassOf(typeof(GameState)))
-				.Where(T => T.GetCustomAttributes(typeof(MenuItem),false).Length > 0);
-				
+				.Where(T => T.GetCustomAttributes(typeof(MenuItem), false).Length > 0);
 
 			foreach (var Type in MenuItemTypes)
 			{
@@ -35,7 +33,7 @@ namespace CrossfireGame
 				Options.Add(Tuple.Create(attrib, Type));
 			}
 
-			Options.Sort( (T1, T2) =>
+			Options.Sort((T1, T2) =>
 				{
 					var firstOrder = T1.Item1.Order;
 					var secondOrder = T2.Item1.Order;
@@ -43,19 +41,17 @@ namespace CrossfireGame
 				});
 			// ============================================================
 			// ============================================================
-
 		}
 
-		const float MENU_HEIGHT = 100;
-		const float VERTICAL_MARGIN = 20;
-		SpriteFont MenuFont; 
+		private const float MENU_HEIGHT = 100;
+		private const float VERTICAL_MARGIN = 20;
+		private SpriteFont MenuFont;
 
 		public override void Draw(GameTime time)
 		{
-
 			if (MenuFont == null)
 				MenuFont = this.parent.Content.Load<SpriteFont>("defaultFont");
-			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right. 
+			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.
 
 			parent.GraphicsDevice.Clear(Color.DarkBlue);
 			SpriteBatch sb = new SpriteBatch(parent.GraphicsDevice);
@@ -63,12 +59,13 @@ namespace CrossfireGame
 			float currentHeight = MENU_HEIGHT;
 
 			sb.Begin();
-			foreach(var curOptionindex in Enumerate(Options))
+			foreach (var curOptionindex in Enumerate(Options))
 			{
 				var curOption = curOptionindex.Item2;
 				var size = MenuFont.MeasureString(curOption.Item1.Name);
-				var pos = new Vector2(){ 
-					X = this.parent.GraphicsDevice.Viewport.Width/2 - size.X/2,
+				var pos = new Vector2()
+				{
+					X = this.parent.GraphicsDevice.Viewport.Width / 2 - size.X / 2,
 					Y = currentHeight
 				};
 				var col = (curOptionindex.Item1 == currentOption) ? Color.White : Color.DarkGray;
@@ -80,27 +77,27 @@ namespace CrossfireGame
 			sb.End();
 		}
 
-		enum VerticalInput { Neutral, Up, Down }
+		private enum VerticalInput { Neutral, Up, Down }
 
-		VerticalInput prevInput = VerticalInput.Neutral;
+		private VerticalInput prevInput = VerticalInput.Neutral;
 
 		private int Clamp(int v, int l, int u)
 		{
 			while (v >= u)
 				v -= (u - l);
 			while (v < l)
-				v += (u-l);
+				v += (u - l);
 			return v;
 		}
 
-        private IEnumerable<Tuple<int, T>> Enumerate<T>(IEnumerable<T> e)
-        {
-            int i = 0;
-            foreach (var item in e)
-            {
-                yield return Tuple.Create(i++, item);
-            }
-        }
+		private IEnumerable<Tuple<int, T>> Enumerate<T>(IEnumerable<T> e)
+		{
+			int i = 0;
+			foreach (var item in e)
+			{
+				yield return Tuple.Create(i++, item);
+			}
+		}
 
 		public override void Update(GameTime time)
 		{
@@ -136,8 +133,6 @@ namespace CrossfireGame
 			if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed
 				|| Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Enter))
 				this.parent.ChangeState(Options[currentOption].Item2);
-
-
 		}
 	}
 }

@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-
 
 namespace CrossfireGame
 {
@@ -34,20 +28,17 @@ namespace CrossfireGame
 
 		private GameState currentState;
 
-		GraphicsDeviceManager graphics;
-		
-	
+		private GraphicsDeviceManager graphics;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+			graphics.PreferredBackBufferHeight = 600;
+			graphics.PreferredBackBufferWidth = 800;
 
 			currentState = new RootMenu(this);
-
-
 		}
 
 		/// <summary>
@@ -93,7 +84,7 @@ namespace CrossfireGame
 			// Allows the game to exit
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
 				this.Exit();
-			
+
 			// TODO: Add your update logic here
 
 			currentState.Update(gameTime);

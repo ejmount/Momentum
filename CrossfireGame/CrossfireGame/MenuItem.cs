@@ -1,7 +1,7 @@
 ﻿using System;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-sealed class MenuItem : Attribute
+internal sealed class MenuItem : Attribute
 {
 	public MenuItem(string Name, int Order)
 	{
@@ -12,7 +12,7 @@ sealed class MenuItem : Attribute
 	public string Name
 	{
 		get;
-		set; 
+		set;
 	}
 
 	public int Order { get; set; }

@@ -20,8 +20,6 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Box2DX.Collision;
 using Box2DX.Common;
 
@@ -59,7 +57,7 @@ namespace Box2DX.Dynamics
 	{
 		/// <summary>
 		/// The constructor sets the default fixture definition values.
-		/// </summary>	
+		/// </summary>
 		public FixtureDef()
 		{
 			Type = ShapeType.UnknownShape;
@@ -161,7 +159,6 @@ namespace Box2DX.Dynamics
 			Vertices[2].Set(hx, hy);
 			Vertices[3].Set(-hx, hy);
 		}
-
 
 		/// <summary>
 		/// Build vertices to represent an oriented box.

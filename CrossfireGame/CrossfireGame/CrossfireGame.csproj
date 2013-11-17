@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractPhysics.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="ExitState.cs" />
     <Compile Include="GameMenu.cs" />
     <Compile Include="GameState.cs" />
