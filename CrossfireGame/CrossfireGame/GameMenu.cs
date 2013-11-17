@@ -34,8 +34,7 @@ namespace CrossfireGame
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
-			puck = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), new Vec2(7, 0), friction: 0);
-			//AbstractPhysics.CreateEntity(theWorld, 1f, 1f, new Vec2(10,3), new Vec2(-5, 0), friction:0);
+			puck = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0);
 
 			puck.SetUserData(Microsoft.Xna.Framework.Color.Blue);
 
@@ -137,14 +136,14 @@ namespace CrossfireGame
 			{
 				puck.ApplyImpulse(new Vec2(0, 1), puck.GetWorldCenter());
 			}
-			if (input.HasFlag(Controller.Input.Left))
+	/*		if (input.HasFlag(Controller.Input.Left))
 			{
 				puck.ApplyImpulse(new Vec2(-1, 0), puck.GetWorldCenter());
 			}
 			if (input.HasFlag(Controller.Input.Right))
 			{
 				puck.ApplyImpulse(new Vec2(1, 0), puck.GetWorldCenter());
-			}
+			}*/
 			if (input.HasFlag(Controller.Input.FireHeavy))
 			{
 			}
@@ -155,7 +154,7 @@ namespace CrossfireGame
 			if (Controller.InterpretInput(PlayerIndex.One).HasFlag(Controller.Input.FireLight)
 				&& (DateTime.Now - lastspawn).TotalSeconds > 0.05)
 			{
-				AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() - ((float)FRAMEDURATION.TotalSeconds * puck.GetLinearVelocity()), Vec2.Zero, friction: 0);
+				AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
 				lastspawn = DateTime.Now;
 			}
 
