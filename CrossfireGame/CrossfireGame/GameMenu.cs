@@ -34,7 +34,7 @@ namespace CrossfireGame
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
-			puck = AbstractPhysics.CreateEntity(theWorld, 1f, 1f, new Vec2(5, 3), new Vec2(7, 0), friction: 0);
+			puck = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), new Vec2(7, 0), friction: 0);
 			//AbstractPhysics.CreateEntity(theWorld, 1f, 1f, new Vec2(10,3), new Vec2(-5, 0), friction:0);
 
 			puck.SetUserData(Microsoft.Xna.Framework.Color.Blue);
@@ -107,7 +107,7 @@ namespace CrossfireGame
 			var size = MenuFont.MeasureString((time.TotalGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds).ToString());
 			var textPos = new Vector2(0, parent.GraphicsDevice.Viewport.Height - size.Y);
 
-			sb.DrawString(MenuFont, (time.TotalGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds).ToString() + "," + physicssteps, textPos, Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, (time.TotalGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds).ToString() + "," + physicssteps + "," + Controller.InterpretInput(PlayerIndex.One).ToString(), textPos, Microsoft.Xna.Framework.Color.White);
 
 			sb.End();
 		}
@@ -126,35 +126,36 @@ namespace CrossfireGame
 				physicssteps++;
 			}
 
-			if (Keyboard.GetState(0).IsKeyDown(Keys.Right) && AbstractPhysics.GetBodies(theWorld).Any(B => B.IsDynamic()))
+			var input = Controller.InterpretInput(PlayerIndex.One);
+
+			if (input.HasFlag(Controller.Input.Up))
 			{
-				var body = puck;
-				body.ApplyImpulse(new Vec2(1, 0), body.GetWorldCenter());
+				puck.ApplyImpulse(new Vec2(0, -1), puck.GetWorldCenter());
 			}
 
-			if (Keyboard.GetState(0).IsKeyDown(Keys.Left) && AbstractPhysics.GetBodies(theWorld).Any(B => B.IsDynamic()))
+			if (input.HasFlag(Controller.Input.Down))
 			{
-				var body = puck;
-				body.ApplyImpulse(new Vec2(-1, 0), body.GetWorldCenter());
+				puck.ApplyImpulse(new Vec2(0, 1), puck.GetWorldCenter());
+			}
+			if (input.HasFlag(Controller.Input.Left))
+			{
+				puck.ApplyImpulse(new Vec2(-1, 0), puck.GetWorldCenter());
+			}
+			if (input.HasFlag(Controller.Input.Right))
+			{
+				puck.ApplyImpulse(new Vec2(1, 0), puck.GetWorldCenter());
+			}
+			if (input.HasFlag(Controller.Input.FireHeavy))
+			{
+			}
+			if (input.HasFlag(Controller.Input.FireLight))
+			{
 			}
 
-			if (Keyboard.GetState(0).IsKeyDown(Keys.Down) && AbstractPhysics.GetBodies(theWorld).Any(B => B.IsDynamic()))
+			if (Controller.InterpretInput(PlayerIndex.One).HasFlag(Controller.Input.FireLight)
+				&& (DateTime.Now - lastspawn).TotalSeconds > 0.05)
 			{
-				var body = puck;
-				body.ApplyImpulse(new Vec2(0, 1), body.GetWorldCenter());
-			}
-
-			if (Keyboard.GetState(0).IsKeyDown(Keys.Up) && AbstractPhysics.GetBodies(theWorld).Any(B => B.IsDynamic()))
-			{
-				var body = puck;
-				body.ApplyImpulse(new Vec2(0, -1), body.GetWorldCenter());
-			}
-
-			if (Keyboard.GetState(0).IsKeyDown(Keys.V) && (DateTime.Now - lastspawn).TotalSeconds > 0.05)
-			{
-				float x = (float)RNG.NextDouble();
-				float y = (float)System.Math.Sqrt(1 - x * x);
-				AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() - ((float)FRAMEDURATION.TotalSeconds * puck.GetLinearVelocity()), new Vec2(x, y), friction: 0);
+				AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() - ((float)FRAMEDURATION.TotalSeconds * puck.GetLinearVelocity()), Vec2.Zero, friction: 0);
 				lastspawn = DateTime.Now;
 			}
 
