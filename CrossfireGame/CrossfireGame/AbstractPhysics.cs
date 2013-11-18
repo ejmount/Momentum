@@ -45,7 +45,7 @@ namespace CrossfireGame
 
 		private static int n = 0;
 
-		public static Body CreateEntity(World W, float width, float height,
+		public static BodyMetadata CreateEntity(World W, float width, float height,
 			Vec2 pos, Vec2 vel,
 			float mass = 1, float density = 1, float friction = 0.3f)
 		{
@@ -66,9 +66,11 @@ namespace CrossfireGame
 
 			B.CreateFixture(fixtureDef);
 
-			B.SetUserData(n++);
+			var BM = new BodyMetadata(B);
 
-			return B;
+			B.SetUserData(BM);
+
+			return BM;
 		}
 	}
 }

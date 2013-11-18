@@ -34,21 +34,26 @@ namespace CrossfireGame
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
-			puck = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0);
+			puck = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0)
+					.thisBody;
 
-			puck.SetUserData(Microsoft.Xna.Framework.Color.Blue);
+			(puck.GetUserData() as BodyMetadata).Color = Microsoft.Xna.Framework.Color.Blue;
 
 			// top edge
-			AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, mass: 0, density: 0);
+			var MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, mass: 0, density: 0);
+			MB.Color = Microsoft.Xna.Framework.Color.Red;
 
 			// bottom edge
-			AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, worldBounds.Y), Vec2.Zero, mass: 0, density: 0);
+			MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, worldBounds.Y), Vec2.Zero, mass: 0, density: 0);
+			MB.Color = Microsoft.Xna.Framework.Color.Red;
 
 			// left edge
-			AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(0, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
+			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(0, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
+			MB.Color = Microsoft.Xna.Framework.Color.Red;
 
 			// right edge
-			AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
+			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
+			MB.Color = Microsoft.Xna.Framework.Color.Red;
 		}
 
 		private SpriteFont MenuFont;
@@ -76,7 +81,7 @@ namespace CrossfireGame
 				var pos = B.GetPosition();
 				var fixes = AbstractPhysics.GetFixtures(B);
 				if (B.GetUserData() != null)
-
+				{
 					if (fixes.Any())
 					{
 						var firstFix = fixes.First();
@@ -94,12 +99,21 @@ namespace CrossfireGame
 							);
 
 						Microsoft.Xna.Framework.Color col = Microsoft.Xna.Framework.Color.White;
-						if (B.GetUserData() is Microsoft.Xna.Framework.Color && B.GetUserData() != null)
-							col = (Microsoft.Xna.Framework.Color)B.GetUserData();
+						/*if (B.GetUserData() is Microsoft.Xna.Framework.Color && B.GetUserData() != null)
+							col = (Microsoft.Xna.Framework.Color)B.GetUserData();*/
 
 						sb.Draw(white, destRectangle, col);
 					}
-			} System.Diagnostics.Debug.WriteLine("");
+				}
+			}
+
+			var garbage = bodies.Where(B => B.GetUserData() != null).Where(B => { return time.TotalGameTime > (B.GetUserData() as BodyMetadata).Expiry; }).ToList();
+
+			foreach (var g in garbage)
+			{
+				theWorld.DestroyBody(g);
+			}
+
 
 			sb.DrawString(MenuFont, time.TotalGameTime.TotalMilliseconds.ToString(), Microsoft.Xna.Framework.Vector2.Zero, Microsoft.Xna.Framework.Color.White);
 
@@ -154,7 +168,9 @@ namespace CrossfireGame
 			if (Controller.InterpretInput(PlayerIndex.One).HasFlag(Controller.Input.FireLight)
 				&& (DateTime.Now - lastspawn).TotalSeconds > 0.05)
 			{
-				AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
+				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
+				metadata.Expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 20);
+
 				lastspawn = DateTime.Now;
 			}
 
