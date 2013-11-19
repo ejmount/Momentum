@@ -11,6 +11,8 @@ namespace CrossfireGame
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
 		private Dictionary<Type, GameState> gameStateCache = new Dictionary<Type, GameState>();
+		private Dictionary<string, object> contentCache = new Dictionary<string, object>();
+
 
 		public void ChangeState(Type stateType)
 		{
@@ -104,5 +106,14 @@ namespace CrossfireGame
 
 			base.Draw(gameTime);
 		}
+
+		public T GetContent<T>(string name)
+		{
+			if (!contentCache.ContainsKey(name))
+				contentCache[name] = this.Content.Load<T>(name);
+			return (T)contentCache[name];
+		}
+
+
 	}
 }

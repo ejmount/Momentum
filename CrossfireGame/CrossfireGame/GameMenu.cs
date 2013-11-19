@@ -65,8 +65,9 @@ namespace CrossfireGame
 
 		public override void Draw(GameTime time)
 		{
+			
 			if (white == null)
-				white = this.parent.Content.Load<Texture2D>("white");
+				white = this.parent.GetContent<Texture2D>("white");
 
 			verticalScale = parent.GraphicsDevice.Viewport.Height / worldBounds.Y;
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
