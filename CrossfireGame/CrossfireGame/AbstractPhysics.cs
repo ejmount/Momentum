@@ -60,7 +60,7 @@ namespace CrossfireGame
 			P.SetAsBox(width / 2, height / 2);
 
 			FixtureDef fixtureDef = new PolygonDef() { Vertices = P.Vertices, VertexCount = P.VertexCount };
-			fixtureDef.Density = density;
+			//fixtureDef.Density = density;
 			fixtureDef.Friction = friction;
 			fixtureDef.Restitution = 1f;
 

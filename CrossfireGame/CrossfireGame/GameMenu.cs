@@ -25,7 +25,7 @@ namespace CrossfireGame
 		private float verticalScale;
 		private float horizScale;
 
-		private Body puck;
+		private Body player1;
 
 		public GameMenu(Game1 g)
 			: base(g)
@@ -34,10 +34,10 @@ namespace CrossfireGame
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
-			puck = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0)
+			player1 = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0)
 					.thisBody;
 
-			(puck.GetUserData() as BodyMetadata).Color = Microsoft.Xna.Framework.Color.Blue;
+			(player1.GetUserData() as BodyMetadata).Color = Microsoft.Xna.Framework.Color.Blue;
 
 			// top edge
 			var MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, mass: 0, density: 0);
@@ -143,12 +143,12 @@ namespace CrossfireGame
 
 			if (input.HasFlag(Controller.Input.Up))
 			{
-				puck.ApplyImpulse(new Vec2(0, -1), puck.GetWorldCenter());
+				player1.ApplyImpulse(new Vec2(0, -1), player1.GetWorldCenter());
 			}
 
 			if (input.HasFlag(Controller.Input.Down))
 			{
-				puck.ApplyImpulse(new Vec2(0, 1), puck.GetWorldCenter());
+				player1.ApplyImpulse(new Vec2(0, 1), player1.GetWorldCenter());
 			}
 	/*		if (input.HasFlag(Controller.Input.Left))
 			{
@@ -168,7 +168,7 @@ namespace CrossfireGame
 			if (Controller.InterpretInput(PlayerIndex.One).HasFlag(Controller.Input.FireLight)
 				&& (DateTime.Now - lastspawn).TotalSeconds > 0.05)
 			{
-				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, puck.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
+				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
 				metadata.Expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 20);
 
 				lastspawn = DateTime.Now;
