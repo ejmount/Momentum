@@ -43,27 +43,49 @@ namespace CrossfireGame
 			while (J != null);
 		}
 
-
-		public static BodyMetadata CreateEntity(World W, float width, float height,
-			Vec2 pos, Vec2 vel,
-			float mass = 1, float density = 1, float friction = 0.3f)
+		private static Body CreateEntity(World W, Vec2 pos, Vec2 vel)
 		{
 			BodyDef bodydef = new BodyDef();
 			bodydef.Position = pos;
 			bodydef.LinearVelocity = vel;
-			bodydef.MassData = new MassData() { Mass = mass };
 
 			var B = W.CreateBody(bodydef);
+
+			return B;
+		}
+
+		public static BodyMetadata CreateBox(World W, float width, float height, Vec2 pos, Vec2 vel, float density = 1, float friction = 0)
+		{
+			var B = CreateEntity(W, pos, vel);
+			B.SetMass(new MassData() { Mass = width * height * density });
 
 			PolygonShape P = new PolygonShape();
 			P.SetAsBox(width / 2, height / 2);
 
 			FixtureDef fixtureDef = new PolygonDef() { Vertices = P.Vertices, VertexCount = P.VertexCount };
-			//fixtureDef.Density = density;
+			fixtureDef.Density = density;
 			fixtureDef.Friction = friction;
 			fixtureDef.Restitution = 1f;
 
-			B.SetFixedRotation(false);
+			B.CreateFixture(fixtureDef);
+
+			var BM = new BodyMetadata(B);
+
+			B.SetUserData(BM);
+
+			return BM;
+		}
+
+		public static BodyMetadata CreateCircle(World W, float radius, Vec2 pos, Vec2 vel, float density = 1, float friction = 0)
+		{
+			var B = CreateEntity(W, pos, vel);
+
+			B.SetMass(new MassData() { Mass = Settings.Pi * radius * radius * density });
+
+			FixtureDef fixtureDef = new CircleDef() { Radius = radius };
+			fixtureDef.Density = density;
+			fixtureDef.Friction = friction;
+			fixtureDef.Restitution = 1f;
 
 			B.CreateFixture(fixtureDef);
 

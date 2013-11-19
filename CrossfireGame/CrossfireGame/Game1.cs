@@ -13,7 +13,6 @@ namespace CrossfireGame
 		private Dictionary<Type, GameState> gameStateCache = new Dictionary<Type, GameState>();
 		private Dictionary<string, object> contentCache = new Dictionary<string, object>();
 
-
 		public void ChangeState(Type stateType)
 		{
 			if (!stateType.IsSubclassOf(typeof(GameState)))
@@ -37,7 +36,7 @@ namespace CrossfireGame
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-			graphics.PreferredBackBufferHeight = 600;
+			graphics.PreferredBackBufferHeight = 800;
 			graphics.PreferredBackBufferWidth = 800;
 
 			currentState = new RootMenu(this);
@@ -113,7 +112,5 @@ namespace CrossfireGame
 				contentCache[name] = this.Content.Load<T>(name);
 			return (T)contentCache[name];
 		}
-
-
 	}
 }

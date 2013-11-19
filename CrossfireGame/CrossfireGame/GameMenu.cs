@@ -12,6 +12,7 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
+		private const float FiringDistance = 5;
 		private const int PHYSICS_ITERATIONS = 10;
 		private readonly TimeSpan FRAMEDURATION = TimeSpan.FromSeconds(1 / 60.0);
 
@@ -26,6 +27,7 @@ namespace CrossfireGame
 		private float horizScale;
 
 		private Body player1;
+		private Body puck;
 
 		public GameMenu(Game1 g)
 			: base(g)
@@ -35,37 +37,37 @@ namespace CrossfireGame
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
 
-			player1 = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0)
+			player1 = AbstractPhysics.CreateBox(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, density: 1 / 9f, friction: 0)
 					.thisBody;
 
-			(player1.GetUserData() as BodyMetadata).color = Microsoft.Xna.Framework.Color.Blue;
+			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
+
+			var puckdata = AbstractPhysics.CreateCircle(theWorld, 4, new Vec2(worldBounds.X / 2, worldBounds.Y / 2), Vec2.Zero, 0.1f, 0);
+			puckdata.sprite = this.parent.GetContent<Texture2D>("Puck_50x50");
+			puck = puckdata.thisBody;
+			puck.SetMassFromShapes();
 
 			// top edge
-			var MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, mass: 0, density: 0);
+			var MB = AbstractPhysics.CreateBox(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			// bottom edge
-			MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, worldBounds.Y), Vec2.Zero, mass: 0, density: 0);
+			MB = AbstractPhysics.CreateBox(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, worldBounds.Y), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			// left edge
-			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(0, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
+			MB = AbstractPhysics.CreateBox(theWorld, 1, worldBounds.Y, new Vec2(0, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			// right edge
-			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
+			MB = AbstractPhysics.CreateBox(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
-
-			
-
-
 		}
 
 		private SpriteFont MenuFont;
 
 		public override void Draw(GameTime time)
 		{
-			
 			if (white == null)
 				white = this.parent.GetContent<Texture2D>("white");
 
@@ -98,8 +100,8 @@ namespace CrossfireGame
 						var realExtents = box.UpperBound - box.LowerBound;
 
 						var destRectangle = new Rectangle(
-							intRound((pos.X + box.LowerBound.X) * horizScale),
-							intRound((pos.Y + box.LowerBound.Y) * verticalScale),
+							intRound((pos.X) * horizScale),
+							intRound((pos.Y) * verticalScale),
 							intRound((realExtents.X) * horizScale),
 							intRound((realExtents.Y) * verticalScale)
 							);
@@ -114,7 +116,7 @@ namespace CrossfireGame
 							sprite = (B.GetUserData() as BodyMetadata).sprite ?? white;
 						}
 
-						sb.Draw(sprite, destRectangle, col);
+						sb.Draw(sprite, destRectangle, null, col, B.GetAngle(), new Vector2(sprite.Width / 2, sprite.Height / 2), SpriteEffects.None, 0);
 					}
 				}
 			}
@@ -128,7 +130,6 @@ namespace CrossfireGame
 			{
 				theWorld.DestroyBody(g);
 			}
-
 
 			sb.DrawString(MenuFont, time.TotalGameTime.TotalMilliseconds.ToString(), Microsoft.Xna.Framework.Vector2.Zero, Microsoft.Xna.Framework.Color.White);
 
@@ -154,7 +155,22 @@ namespace CrossfireGame
 				physicssteps++;
 			}
 
-			var input = Controller.InterpretInput(PlayerIndex.One);
+			var gunToPuck = puck.GetPosition() - player1.GetPosition();
+
+			float ang = (float)System.Math.Atan2(gunToPuck.Y, gunToPuck.X);
+			player1.SetAngle(ang);
+
+			InterpretInput(time, PlayerIndex.One);
+
+			if (GamePad.GetState(0).Buttons.A == ButtonState.Pressed)
+			{
+				this.parent.ChangeState(typeof(RootMenu));
+			}
+		}
+
+		private void InterpretInput(GameTime time, PlayerIndex player)
+		{
+			var input = Controller.InterpretInput(player);
 
 			if (input.HasFlag(Controller.Input.Up))
 			{
@@ -176,23 +192,20 @@ namespace CrossfireGame
 
 			if ((DateTime.Now - lastspawn).TotalSeconds > 0.07)
 			{
-
 				if (input.HasFlag(Controller.Input.FireHeavy))
 				{
 				}
 				if (input.HasFlag(Controller.Input.FireLight))
 				{
-					var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(10, 0), friction: 0);
+					var delta = FiringDistance * new Vec2((float)System.Math.Cos(player1.GetAngle()), (float)System.Math.Sin(player1.GetAngle()));
+					var nextPos = player1.GetPosition() + delta;
+
+					var metadata = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta, friction: 0);
 					metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 1, seconds: 0);
-					metadata.sprite = this.parent.GetContent<Texture2D>("bullet_orange_filled");
+					metadata.sprite = this.parent.GetContent<Texture2D>("bullet_orange_hollow");
 
 					lastspawn = DateTime.Now;
 				}
-			}
-
-			if (GamePad.GetState(0).Buttons.A == ButtonState.Pressed)
-			{
-				this.parent.ChangeState(typeof(RootMenu));
 			}
 		}
 
