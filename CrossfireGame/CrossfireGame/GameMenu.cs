@@ -6,6 +6,7 @@ using Box2DX.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace CrossfireGame
 {
@@ -29,7 +30,9 @@ namespace CrossfireGame
 		private float verticalScale;
 		private float horizScale;
 
-		private Body player1;
+		private List<Body> Players = new List<Body>();
+
+
 		private Body puck;
 
 		public GameMenu(Game1 g)
@@ -40,9 +43,6 @@ namespace CrossfireGame
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
 
-			player1 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(3, worldBounds.Y/2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
-
-			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
 
 			var puckdata = AbstractPhysics.CreateCircle(theWorld, 4, new Vec2(worldBounds.X / 2, worldBounds.Y / 2), Vec2.Zero, 0.1f, 0);
 			puckdata.sprite = this.parent.GetContent<Texture2D>("Puck_50x50");
@@ -70,8 +70,17 @@ namespace CrossfireGame
 			MB = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(3 + gunSize, worldBounds.Y/2), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
 
+			// left barrier.
+			MB = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(worldBounds.X -( 3 + gunSize), worldBounds.Y / 2), Vec2.Zero, density: 0);
+			MB.color = Microsoft.Xna.Framework.Color.Red;
 
+			var player1 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
+			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
+			Players.Add(player1);
 
+			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X- 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
+			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
+			Players.Add(player2);
 		}
 
 		private SpriteFont MenuFont;
@@ -165,12 +174,17 @@ namespace CrossfireGame
 				physicssteps++;
 			}
 
-			var gunToPuck = puck.GetPosition() - player1.GetPosition();
+			int p = 0;
+			foreach (var player in Players)
+			{
+				var gunToPuck = puck.GetPosition() - Players[p].GetPosition();
 
-			float ang = (float)System.Math.Atan2(gunToPuck.Y, gunToPuck.X);
-			player1.SetAngle(ang);
+				float ang = (float)System.Math.Atan2(gunToPuck.Y, gunToPuck.X);
+				Players[p].SetAngle(ang);
 
-			InterpretInput(time, PlayerIndex.One);
+				InterpretInput(time, (PlayerIndex)p);
+				p++;
+			}
 
 			if (GamePad.GetState(0).Buttons.A == ButtonState.Pressed)
 			{
@@ -184,20 +198,20 @@ namespace CrossfireGame
 
 			if (input.HasFlag(Controller.Input.Up))
 			{
-				player1.ApplyImpulse(new Vec2(0, -1), player1.GetWorldCenter());
+				Players[(int)player].ApplyImpulse(new Vec2(0, -1), Players[(int)player].GetWorldCenter());
 			}
 
 			if (input.HasFlag(Controller.Input.Down))
 			{
-				player1.ApplyImpulse(new Vec2(0, 1), player1.GetWorldCenter());
+				Players[(int)player].ApplyImpulse(new Vec2(0, 1), Players[(int)player].GetWorldCenter());
 			}
 			if (input.HasFlag(Controller.Input.Left))
 			{
-				player1.ApplyImpulse(new Vec2(-1, 0), player1.GetWorldCenter());
+				Players[(int)player].ApplyImpulse(new Vec2(-1, 0), Players[(int)player].GetWorldCenter());
 			}
 			if (input.HasFlag(Controller.Input.Right))
 			{
-				player1.ApplyImpulse(new Vec2(1, 0), player1.GetWorldCenter());
+				Players[(int)player].ApplyImpulse(new Vec2(1, 0), Players[(int)player].GetWorldCenter());
 			}
 
 			if ((DateTime.Now - lastspawn).TotalSeconds > 0.07)
@@ -207,8 +221,8 @@ namespace CrossfireGame
 				}
 				if (input.HasFlag(Controller.Input.FireLight))
 				{
-					var delta = new Vec2((float)System.Math.Cos(player1.GetAngle()), (float)System.Math.Sin(player1.GetAngle()));
-					var nextPos = player1.GetPosition() + delta * FiringDistance;
+					var delta = new Vec2((float)System.Math.Cos(Players[(int)player].GetAngle()), (float)System.Math.Sin(Players[(int)player].GetAngle()));
+					var nextPos = Players[(int)player].GetPosition() + delta * FiringDistance;
 
 					var metadata = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta* FiringPower, friction: 0);
 					metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 1, seconds: 0);
