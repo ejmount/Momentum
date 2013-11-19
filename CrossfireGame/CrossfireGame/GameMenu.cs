@@ -165,14 +165,14 @@ namespace CrossfireGame
 			{
 				player1.ApplyImpulse(new Vec2(0, 1), player1.GetWorldCenter());
 			}
-	/*		if (input.HasFlag(Controller.Input.Left))
+			if (input.HasFlag(Controller.Input.Left))
 			{
-				puck.ApplyImpulse(new Vec2(-1, 0), puck.GetWorldCenter());
+				player1.ApplyImpulse(new Vec2(-1, 0), player1.GetWorldCenter());
 			}
 			if (input.HasFlag(Controller.Input.Right))
 			{
-				puck.ApplyImpulse(new Vec2(1, 0), puck.GetWorldCenter());
-			}*/
+				player1.ApplyImpulse(new Vec2(1, 0), player1.GetWorldCenter());
+			}
 			if (input.HasFlag(Controller.Input.FireHeavy))
 			{
 			}
@@ -181,10 +181,10 @@ namespace CrossfireGame
 			}
 
 			if (Controller.InterpretInput(PlayerIndex.One).HasFlag(Controller.Input.FireLight)
-				&& (DateTime.Now - lastspawn).TotalSeconds > 0.05)
+				&& (DateTime.Now - lastspawn).TotalSeconds > 0.07)
 			{
-				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
-				metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 20);
+				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(10, 0), friction: 0);
+				metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 1, seconds:0);
 
 				lastspawn = DateTime.Now;
 			}
