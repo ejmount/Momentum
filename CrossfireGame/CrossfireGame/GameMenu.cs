@@ -38,23 +38,23 @@ namespace CrossfireGame
 			player1 = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0)
 					.thisBody;
 
-			(player1.GetUserData() as BodyMetadata).Color = Microsoft.Xna.Framework.Color.Blue;
+			(player1.GetUserData() as BodyMetadata).color = Microsoft.Xna.Framework.Color.Blue;
 
 			// top edge
 			var MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, mass: 0, density: 0);
-			MB.Color = Microsoft.Xna.Framework.Color.Red;
+			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			// bottom edge
 			MB = AbstractPhysics.CreateEntity(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, worldBounds.Y), Vec2.Zero, mass: 0, density: 0);
-			MB.Color = Microsoft.Xna.Framework.Color.Red;
+			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			// left edge
 			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(0, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
-			MB.Color = Microsoft.Xna.Framework.Color.Red;
+			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			// right edge
 			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
-			MB.Color = Microsoft.Xna.Framework.Color.Red;
+			MB.color = Microsoft.Xna.Framework.Color.Red;
 
 			
 
@@ -107,7 +107,7 @@ namespace CrossfireGame
 
 						if (B.GetUserData() is BodyMetadata && B.GetUserData() != null)
 						{
-							col = (B.GetUserData() as BodyMetadata).Color;
+							col = (B.GetUserData() as BodyMetadata).color;
 						}
 
 						/*if (B.GetUserData() is Microsoft.Xna.Framework.Color && B.GetUserData() != null)
