@@ -12,7 +12,10 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
-		private const float FiringDistance = 5;
+		private const float gunSize = 3;
+
+		private const float FiringDistance = 10;
+		private const float FiringPower = 20;
 		private const int PHYSICS_ITERATIONS = 10;
 		private readonly TimeSpan FRAMEDURATION = TimeSpan.FromSeconds(1 / 60.0);
 
@@ -37,8 +40,7 @@ namespace CrossfireGame
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
 
-			player1 = AbstractPhysics.CreateBox(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, density: 1 / 9f, friction: 0)
-					.thisBody;
+			player1 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(3, worldBounds.Y/2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 
 			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
 
@@ -62,6 +64,14 @@ namespace CrossfireGame
 			// right edge
 			MB = AbstractPhysics.CreateBox(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
+
+
+			// left barrier.
+			MB = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(3 + gunSize, worldBounds.Y/2), Vec2.Zero, density: 0);
+			MB.color = Microsoft.Xna.Framework.Color.Red;
+
+
+
 		}
 
 		private SpriteFont MenuFont;
@@ -197,10 +207,10 @@ namespace CrossfireGame
 				}
 				if (input.HasFlag(Controller.Input.FireLight))
 				{
-					var delta = FiringDistance * new Vec2((float)System.Math.Cos(player1.GetAngle()), (float)System.Math.Sin(player1.GetAngle()));
-					var nextPos = player1.GetPosition() + delta;
+					var delta = new Vec2((float)System.Math.Cos(player1.GetAngle()), (float)System.Math.Sin(player1.GetAngle()));
+					var nextPos = player1.GetPosition() + delta * FiringDistance;
 
-					var metadata = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta, friction: 0);
+					var metadata = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta* FiringPower, friction: 0);
 					metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 1, seconds: 0);
 					metadata.sprite = this.parent.GetContent<Texture2D>("bullet_orange_hollow");
 
