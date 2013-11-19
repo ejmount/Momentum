@@ -43,7 +43,6 @@ namespace CrossfireGame
 			while (J != null);
 		}
 
-		private static int n = 0;
 
 		public static BodyMetadata CreateEntity(World W, float width, float height,
 			Vec2 pos, Vec2 vel,
@@ -63,6 +62,8 @@ namespace CrossfireGame
 			//fixtureDef.Density = density;
 			fixtureDef.Friction = friction;
 			fixtureDef.Restitution = 1f;
+
+			B.SetFixedRotation(false);
 
 			B.CreateFixture(fixtureDef);
 
