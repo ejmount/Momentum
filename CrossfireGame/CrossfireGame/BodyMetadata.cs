@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Box2DX.Dynamics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CrossfireGame
 {
 	public class BodyMetadata
 	{
-		public readonly Body thisBody;
+		public readonly Box2DX.Dynamics.Body thisBody;
 
-		public Microsoft.Xna.Framework.Color Color = Microsoft.Xna.Framework.Color.White;
+		public Color color = Color.White;
+		public Texture2D sprite;
+		public TimeSpan expiry = TimeSpan.MaxValue;
 
-		public TimeSpan Expiry = TimeSpan.MaxValue;
-
-		public BodyMetadata(Body B)
+		public BodyMetadata(Box2DX.Dynamics.Body B)
 		{
 			this.thisBody = B;
 		}
