@@ -12,7 +12,7 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
-		private const int PHYSICS_ITERATIONS = 5;
+		private const int PHYSICS_ITERATIONS = 10;
 		private readonly TimeSpan FRAMEDURATION = TimeSpan.FromSeconds(1 / 60.0);
 
 		private Texture2D white;
@@ -34,6 +34,7 @@ namespace CrossfireGame
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
 			theWorld = new World(new AABB() { LowerBound = new Vec2(0, 0), UpperBound = worldBounds }, Vec2.Zero, true);
+
 			player1 = AbstractPhysics.CreateEntity(theWorld, 3f, 3f, new Vec2(5, 3), Vec2.Zero, friction: 0)
 					.thisBody;
 
@@ -54,6 +55,10 @@ namespace CrossfireGame
 			// right edge
 			MB = AbstractPhysics.CreateEntity(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, mass: 0, density: 0);
 			MB.Color = Microsoft.Xna.Framework.Color.Red;
+
+			
+
+
 		}
 
 		private SpriteFont MenuFont;
@@ -99,6 +104,12 @@ namespace CrossfireGame
 							);
 
 						Microsoft.Xna.Framework.Color col = Microsoft.Xna.Framework.Color.White;
+
+						if (B.GetUserData() is BodyMetadata && B.GetUserData() != null)
+						{
+							col = (B.GetUserData() as BodyMetadata).Color;
+						}
+
 						/*if (B.GetUserData() is Microsoft.Xna.Framework.Color && B.GetUserData() != null)
 							col = (Microsoft.Xna.Framework.Color)B.GetUserData();*/
 
