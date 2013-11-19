@@ -118,7 +118,10 @@ namespace CrossfireGame
 				}
 			}
 
-			var garbage = bodies.Where(B => B.GetUserData() != null).Where(B => { return time.TotalGameTime > (B.GetUserData() as BodyMetadata).Expiry; }).ToList();
+			var garbage = bodies
+				.Where(B => B.GetUserData() != null)
+				.Where(B => time.TotalGameTime > (B.GetUserData() as BodyMetadata).expiry)
+				.ToList();
 
 			foreach (var g in garbage)
 			{
@@ -180,7 +183,7 @@ namespace CrossfireGame
 				&& (DateTime.Now - lastspawn).TotalSeconds > 0.05)
 			{
 				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(5, 0), friction: 0);
-				metadata.Expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 20);
+				metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 20);
 
 				lastspawn = DateTime.Now;
 			}
