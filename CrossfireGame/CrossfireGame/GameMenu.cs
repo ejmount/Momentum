@@ -106,15 +106,15 @@ namespace CrossfireGame
 
 						Microsoft.Xna.Framework.Color col = Microsoft.Xna.Framework.Color.White;
 
+						var sprite = white;
+
 						if (B.GetUserData() is BodyMetadata && B.GetUserData() != null)
 						{
 							col = (B.GetUserData() as BodyMetadata).color;
+							sprite = (B.GetUserData() as BodyMetadata).sprite ?? white;
 						}
 
-						/*if (B.GetUserData() is Microsoft.Xna.Framework.Color && B.GetUserData() != null)
-							col = (Microsoft.Xna.Framework.Color)B.GetUserData();*/
-
-						sb.Draw(white, destRectangle, col);
+						sb.Draw(sprite, destRectangle, col);
 					}
 				}
 			}
@@ -173,20 +173,21 @@ namespace CrossfireGame
 			{
 				player1.ApplyImpulse(new Vec2(1, 0), player1.GetWorldCenter());
 			}
-			if (input.HasFlag(Controller.Input.FireHeavy))
-			{
-			}
-			if (input.HasFlag(Controller.Input.FireLight))
-			{
-			}
 
-			if (Controller.InterpretInput(PlayerIndex.One).HasFlag(Controller.Input.FireLight)
-				&& (DateTime.Now - lastspawn).TotalSeconds > 0.07)
+			if ((DateTime.Now - lastspawn).TotalSeconds > 0.07)
 			{
-				var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(10, 0), friction: 0);
-				metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 1, seconds:0);
 
-				lastspawn = DateTime.Now;
+				if (input.HasFlag(Controller.Input.FireHeavy))
+				{
+				}
+				if (input.HasFlag(Controller.Input.FireLight))
+				{
+					var metadata = AbstractPhysics.CreateEntity(theWorld, 1, 1, player1.GetPosition() + new Vec2(10, 0), new Vec2(10, 0), friction: 0);
+					metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 1, seconds: 0);
+					metadata.sprite = this.parent.GetContent<Texture2D>("bullet_orange_filled");
+
+					lastspawn = DateTime.Now;
+				}
 			}
 
 			if (GamePad.GetState(0).Buttons.A == ButtonState.Pressed)
