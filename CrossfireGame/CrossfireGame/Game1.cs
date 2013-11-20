@@ -36,8 +36,8 @@ namespace CrossfireGame
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-			graphics.PreferredBackBufferHeight = 600;
-			graphics.PreferredBackBufferWidth = 600;
+			graphics.PreferredBackBufferHeight = 700;
+			graphics.PreferredBackBufferWidth = 700;
 
 			currentState = new RootMenu(this);
 		}
