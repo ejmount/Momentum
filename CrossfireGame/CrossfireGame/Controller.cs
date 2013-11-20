@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace CrossfireGame
 {
@@ -18,37 +19,63 @@ namespace CrossfireGame
 			FireLight = 1 << 6,
 		}
 
+		public static readonly Dictionary<PlayerIndex, Dictionary<Input, Keys>> keymapping =
+			new Dictionary<PlayerIndex, Dictionary<Input, Keys>>()
+			{
+				{
+					PlayerIndex.One, 
+					new Dictionary<Input, Keys>(){
+						{Input.Up, Keys.W},
+						{Input.Down, Keys.S},
+						{Input.Left, Keys.A},
+						{Input.Right, Keys.D},
+						{Input.FireLight, Keys.Q},
+					}
+				},
+				{
+					PlayerIndex.Two, 
+					new Dictionary<Input, Keys>(){
+						{Input.Up, Keys.Up},
+						{Input.Down, Keys.Down},
+						{Input.Left, Keys.Left},
+						{Input.Right, Keys.Right},
+						{Input.FireLight, Keys.RightControl}
+					}
+				},
+			};
+
 		public static Input InterpretInput(PlayerIndex P)
 		{
 			Input o = Input.None;
 
-			if (Keyboard.GetState(P).IsKeyDown(Keys.Up)
+			if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.Up])
 				|| GamePad.GetState(P).ThumbSticks.Left.Y > .05
 				|| GamePad.GetState(P).DPad.Up == ButtonState.Pressed)
 			{
 				o |= Input.Up;
 			}
-			else if (Keyboard.GetState(P).IsKeyDown(Keys.Down)
+			else if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.Down])
 			|| GamePad.GetState(P).ThumbSticks.Left.Y < -.05
 			|| GamePad.GetState(P).DPad.Down == ButtonState.Pressed)
 			{
 				o |= Input.Down;
 			}
 
-			if (Keyboard.GetState(P).IsKeyDown(Keys.Left)
+			if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.Left])
 				|| GamePad.GetState(P).ThumbSticks.Left.X < -.05
 				|| GamePad.GetState(P).DPad.Left == ButtonState.Pressed)
 			{
 				o |= Input.Left;
 			}
-			else if (Keyboard.GetState(P).IsKeyDown(Keys.Right)
+			else if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.Right])
 				|| GamePad.GetState(P).ThumbSticks.Left.X > .05
 				|| GamePad.GetState(P).DPad.Right == ButtonState.Pressed)
 			{
 				o |= Input.Right;
 			}
 
-			if (GamePad.GetState(P).Triggers.Right > 0.5
+			if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.FireLight])
+				|| GamePad.GetState(P).Triggers.Right > 0.5
 				|| Keyboard.GetState(P).IsKeyDown(Keys.Z))
 			{
 				o |= Input.FireLight;
