@@ -179,6 +179,14 @@ namespace CrossfireGame
 
 		public override void Update(GameTime time)
 		{
+			if (time.IsRunningSlowly && bullets.Count > 0)
+			{
+				var b = bullets[0];
+				bullets.Remove(b);
+				theWorld.DestroyBody(b);
+
+			}
+
 			var steps = (int)System.Math.Round(time.ElapsedGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds);
 
 			for (int i = 0; i < steps; i++)
