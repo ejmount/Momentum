@@ -60,39 +60,48 @@ namespace CrossfireGame
 			// top edge
 			var MB = AbstractPhysics.CreateBox(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, 0), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
+			MB.Cat = Category.World;
 
 			// bottom edge
 			MB = AbstractPhysics.CreateBox(theWorld, worldBounds.X, 1, new Vec2(worldBounds.X / 2, worldBounds.Y), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
+			MB.Cat = Category.World;
 
 			// left edge
 			MB = AbstractPhysics.CreateBox(theWorld, 1, worldBounds.Y, new Vec2(0, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
+			MB.Cat = Category.World;
 
 			// right edge
 			MB = AbstractPhysics.CreateBox(theWorld, 1, worldBounds.Y, new Vec2(worldBounds.X, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			MB.color = Microsoft.Xna.Framework.Color.Red;
+			MB.Cat = Category.World;
 
 			// left barrier.
 			var leftBar = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(3 + gunSize, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			leftBar.color = Microsoft.Xna.Framework.Color.Red;
 
-			barriers.Add(leftBar.thisBody, new Vec2(1, 0));
+			leftBar.SetProperty("polarization", new Vec2(1, 0));
 
 			// right barrier.
-			var rightbar = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(worldBounds.X - (3 + gunSize), worldBounds.Y / 2), Vec2.Zero, density: 0);
-			rightbar.color = Microsoft.Xna.Framework.Color.Red;
+			var rightBar = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(worldBounds.X - (3 + gunSize), worldBounds.Y / 2), Vec2.Zero, density: 0);
+			rightBar.color = Microsoft.Xna.Framework.Color.Red;
 
-			barriers.Add(rightbar.thisBody, new Vec2(-1, 0));
+			rightBar.SetProperty("polarization", new Vec2(-1, 0));
 
-			theWorld.SetContactFilter(new OneWayFilter(barriers));
+			//theWorld.SetContactFilter(new OneWayFilter(barriers));
+			theWorld.SetContactFilter(CollisionManager.getInstance());
 
 			var player1 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
+			(player1.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player1);
+	
+
 
 			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X - 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
+			(player2.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player2);
 		}
 
@@ -173,20 +182,11 @@ namespace CrossfireGame
 			sb.End();
 		}
 
-		private DateTime lastspawn;
 		private Random RNG = new Random();
 		private int physicssteps = 0;
 
 		public override void Update(GameTime time)
 		{
-			if (time.IsRunningSlowly && bullets.Count > 0)
-			{
-				var b = bullets[0];
-				bullets.Remove(b);
-				theWorld.DestroyBody(b);
-
-			}
-
 			var steps = (int)System.Math.Round(time.ElapsedGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds);
 
 			for (int i = 0; i < steps; i++)
@@ -259,47 +259,6 @@ namespace CrossfireGame
 		private int intRound(float d)
 		{
 			return (int)System.Math.Round(d);
-		}
-	}
-
-	/// <summary>
-	/// Takes a list of one-way bodies, and the vectors for the directions that objects ARE allowed to pass through them.
-	/// </summary>
-	internal class OneWayFilter : ContactFilter
-	{
-		private Dictionary<Body, Vec2> barrierTable;
-
-		public OneWayFilter(Dictionary<Body, Vec2> barrierDirections)
-		{
-			barrierTable = barrierDirections;
-		}
-
-		public override bool ShouldCollide(Fixture fixtureA, Fixture fixtureB)
-		{
-			System.Diagnostics.Debug.Assert(fixtureA != null && fixtureB != null);
-			Body barrier, other;
-
-			if (!barrierTable.ContainsKey(fixtureA.Body) && !barrierTable.ContainsKey(fixtureB.Body))
-				return base.ShouldCollide(fixtureA, fixtureB);
-
-			if (barrierTable.ContainsKey(fixtureA.Body))
-			{
-				barrier = fixtureA.Body;
-				other = fixtureB.Body;
-			}
-			else
-			{
-				other = fixtureA.Body;
-				barrier = fixtureB.Body;
-			}
-
-			var direc = barrierTable[barrier];
-
-			if (Vec2.Dot(other.GetLinearVelocity(), direc) > 0)
-			{
-				return false;
-			}
-			return base.ShouldCollide(fixtureA, fixtureB);
 		}
 	}
 }
