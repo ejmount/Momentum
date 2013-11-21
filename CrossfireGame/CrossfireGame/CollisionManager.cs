@@ -118,11 +118,40 @@ namespace CrossfireGame
 				|| metaB.Cat == Category.Normal && metaA.Cat == Category.Transparent)
 				return UnsureBool.No;
 
+			return UnsureBool.Dunno;
+		}
 
+		[CollisionMethod]
+		public static UnsureBool DetectScore(Fixture A, Fixture B)
+		{
+			if (!(A.Body.GetUserData() is BodyMetadata && B.Body.GetUserData() is BodyMetadata))
+				return UnsureBool.Dunno;
 
+			var metaA = (BodyMetadata)A.Body.GetUserData();
+			var metaB = (BodyMetadata)B.Body.GetUserData();
+
+			if (!(metaA.HasProperty("puck") || metaB.HasProperty("puck")))
+				return UnsureBool.Dunno;
+
+			BodyMetadata puck, other;
+			if (metaA.HasProperty("puck"))
+			{
+				puck = metaA;
+				other = metaB;
+			}
+			else
+			{
+				other = metaA;
+				puck = metaB;
+			}
+
+			if (!other.HasProperty("edge")) return UnsureBool.Dunno;
+
+			puck.SetProperty("winner", other.GetProperty<string>("edge"));
 
 
 			return UnsureBool.Dunno;
+
 		}
 
 	}

@@ -39,6 +39,9 @@ namespace CrossfireGame
 		{
 			return (T)Properties[name];
 		}
-
+		public void UnsetProperty(string name)
+		{
+			Properties.Remove(name);
+		}
 	}
 }

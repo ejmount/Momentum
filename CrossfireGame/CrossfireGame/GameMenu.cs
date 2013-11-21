@@ -40,7 +40,11 @@ namespace CrossfireGame
 		private Dictionary<Body, Vec2> barriers = new Dictionary<Body, Vec2>();
 		private List<Body> bullets = new List<Body>();
 		private Dictionary<PlayerIndex, DateTime> lastFiredTimes = new Dictionary<PlayerIndex, DateTime>();
-
+		private Dictionary<PlayerIndex, int> Score = new Dictionary<PlayerIndex, int>
+		{
+			{PlayerIndex.One, 0},
+			{PlayerIndex.Two, 0},
+		};
 
 		private Body puck;
 
@@ -54,6 +58,7 @@ namespace CrossfireGame
 
 			var puckdata = AbstractPhysics.CreateCircle(theWorld, 4, new Vec2(worldBounds.X / 2, worldBounds.Y / 2), Vec2.Zero, 0.1f, 0);
 			puckdata.sprite = this.parent.GetContent<Texture2D>("Puck_50x50");
+			puckdata.SetProperty("puck", true);
 			puck = puckdata.thisBody;
 			puck.SetMassFromShapes();
 
@@ -82,12 +87,14 @@ namespace CrossfireGame
 			leftBar.color = Microsoft.Xna.Framework.Color.Red;
 
 			leftBar.SetProperty("polarization", new Vec2(1, 0));
+			leftBar.SetProperty("edge", "left");
 
 			// right barrier.
 			var rightBar = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(worldBounds.X - (3 + gunSize), worldBounds.Y / 2), Vec2.Zero, density: 0);
 			rightBar.color = Microsoft.Xna.Framework.Color.Red;
 
 			rightBar.SetProperty("polarization", new Vec2(-1, 0));
+			rightBar.SetProperty("edge", "right");
 
 			//theWorld.SetContactFilter(new OneWayFilter(barriers));
 			theWorld.SetContactFilter(CollisionManager.getInstance());
@@ -172,12 +179,13 @@ namespace CrossfireGame
 				theWorld.DestroyBody(g);
 			}
 
-			sb.DrawString(MenuFont, time.TotalGameTime.TotalMilliseconds.ToString(), Microsoft.Xna.Framework.Vector2.Zero, Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, Score[PlayerIndex.One].ToString(), 10* Vector2.UnitX, Microsoft.Xna.Framework.Color.Orange);
 
-			var size = MenuFont.MeasureString((time.TotalGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds).ToString());
-			var textPos = new Vector2(0, parent.GraphicsDevice.Viewport.Height - size.Y);
+			var size = MenuFont.MeasureString(Score[PlayerIndex.Two].ToString());
+			var textPos = new Vector2(parent.GraphicsDevice.Viewport.Width-size.X - 10, 0);
+		
+			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.Purple);
 
-			sb.DrawString(MenuFont, (time.TotalGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds).ToString() + "," + physicssteps + "," + Controller.InterpretInput(PlayerIndex.One).ToString(), textPos, Microsoft.Xna.Framework.Color.White);
 
 			sb.End();
 		}
@@ -187,6 +195,21 @@ namespace CrossfireGame
 
 		public override void Update(GameTime time)
 		{
+			if (puck.GetUserData() is BodyMetadata)
+			{
+				var metapuck = (BodyMetadata)puck.GetUserData();
+				if (metapuck.HasProperty("winner"))
+				{
+					if (metapuck.GetProperty<string>("winner").ToString() == "left")
+						Score[PlayerIndex.One]++;
+					else if (metapuck.GetProperty<string>("winner").ToString() == "right")
+						Score[PlayerIndex.Two]++;
+
+					metapuck.UnsetProperty("winner");
+				}
+			}
+
+
 			var steps = (int)System.Math.Round(time.ElapsedGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds);
 
 			for (int i = 0; i < steps; i++)
