@@ -13,7 +13,10 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
-		private const int FiringDelay = 6;
+		private const float Regeneration = 1 / 6f;
+		private const float AmmoLimit = 10;
+		private const float LightCost = 1;
+		private const float HeavyCost = 3;
 		private const float FiringDistance = 5;
 		private const float FiringPower = 20;
 		private const float gunSize = 3;
@@ -30,7 +33,8 @@ namespace CrossfireGame
 		private Vec2 buffer = new Vec2(1, 1);
 		private List<Body> bullets = new List<Body>();
 		private float horizScale;
-		private Dictionary<PlayerIndex, int> lastFiredTimes = new Dictionary<PlayerIndex, int>();
+		//private Dictionary<PlayerIndex, int> lastFiredTimes = new Dictionary<PlayerIndex, int>();
+		private Dictionary<PlayerIndex, float> AmmoStore = new Dictionary<PlayerIndex, float>();
 		private SpriteFont MenuFont;
 		private int physicssteps = 0;
 		private List<Body> players = new List<Body>();
@@ -41,6 +45,8 @@ namespace CrossfireGame
 			{PlayerIndex.One, 0},
 			{PlayerIndex.Two, 0},
 		};
+
+		private List<ProgressBar> playerRateBars = new List<ProgressBar>();
 
 		private World theWorld;
 		private float verticalScale;
@@ -102,11 +108,42 @@ namespace CrossfireGame
 			(player1.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player1);
 
+			ProgressBar p1bar = new ProgressBar(this.parent, new Rectangle(0, 0, 30, 10), ProgressBar.Orientation.HORIZONTAL_LR);
+			p1bar.Initialize();
+
+			p1bar.backgroundColor = Microsoft.Xna.Framework.Color.Black;
+			p1bar.borderColorOuter = Microsoft.Xna.Framework.Color.Orange;
+			p1bar.borderColorInner = Microsoft.Xna.Framework.Color.Black;
+			p1bar.fillColor = Microsoft.Xna.Framework.Color.OrangeRed;
+			p1bar.borderThicknessInner = 0;
+			p1bar.borderThicknessOuter = 2;
+
+			p1bar.minimum = 0;
+			p1bar.maximum = AmmoLimit;
+			playerRateBars.Add(p1bar);
+
+
+			ProgressBar p2bar = new ProgressBar(this.parent, new Rectangle(0, 0, 30, 10), ProgressBar.Orientation.HORIZONTAL_LR);
+			p2bar.Initialize();
+
+			p2bar.backgroundColor = Microsoft.Xna.Framework.Color.Black;
+			p2bar.borderColorOuter = Microsoft.Xna.Framework.Color.Purple;
+			p2bar.borderColorInner = Microsoft.Xna.Framework.Color.Black;
+			p2bar.fillColor = Microsoft.Xna.Framework.Color.MediumPurple;
+			p2bar.borderThicknessInner = 0;
+			p2bar.borderThicknessOuter = 2;
+
+			p2bar.minimum = 0;
+			p2bar.maximum = AmmoLimit;
+			playerRateBars.Add(p2bar);
+
+
 			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X - 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
 			(player2.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player2);
 		}
+		
 		public override void Draw(GameTime time)
 		{
 			if (white == null)
@@ -115,16 +152,28 @@ namespace CrossfireGame
 			verticalScale = parent.GraphicsDevice.Viewport.Height / worldBounds.Y;
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
-			parent.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
-			SpriteBatch sb = new SpriteBatch(parent.GraphicsDevice);
-
-			var bodies = AbstractPhysics.GetBodies(theWorld);
 
 			if (MenuFont == null)
 				MenuFont = this.parent.Content.Load<SpriteFont>("defaultFont");
-			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.
+			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.				
+
+			parent.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
+			SpriteBatch sb = new SpriteBatch(parent.GraphicsDevice);
 
 			sb.Begin();
+
+			// Code is duplicated because it's simpler than a loop and margin calculations.
+			playerRateBars[0].SetPosition(5, intRound(players[0].GetPosition().Y * verticalScale) + 20);
+			playerRateBars[0].value = AmmoStore.ContainsKey(PlayerIndex.One) ? AmmoStore[PlayerIndex.One] : 0;
+			playerRateBars[0].Draw(sb);
+
+			playerRateBars[1].SetPosition(intRound(worldBounds.Y*horizScale - 40), intRound(players[1].GetPosition().Y * verticalScale) + 20);
+			playerRateBars[1].value = AmmoStore.ContainsKey(PlayerIndex.Two) ? AmmoStore[PlayerIndex.Two] : 0;
+			playerRateBars[1].Draw(sb);
+
+
+
+			var bodies = AbstractPhysics.GetBodies(theWorld);
 			foreach (var B in bodies)
 			{
 				var pos = B.GetPosition();
@@ -173,6 +222,13 @@ namespace CrossfireGame
 		}
 		public override void Update(GameTime time)
 		{
+			for (int i = 0; i < players.Count; i++)
+			{
+				if (!AmmoStore.ContainsKey((PlayerIndex)i)) AmmoStore[(PlayerIndex)i] = 0;
+				AmmoStore[(PlayerIndex)i] = System.Math.Min(AmmoStore[(PlayerIndex)i] + Regeneration, AmmoLimit);
+			}
+
+
 			CheckWinner();
 
 			var garbage = bullets
@@ -206,6 +262,8 @@ namespace CrossfireGame
 				p++;
 			}
 
+
+
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				this.parent.ChangeState(typeof(RootMenu));
@@ -220,9 +278,9 @@ namespace CrossfireGame
 				if (metapuck.HasProperty("winner"))
 				{
 					if (metapuck.GetProperty<string>("winner").ToString() == "left")
-						Score[PlayerIndex.One]++;
-					else if (metapuck.GetProperty<string>("winner").ToString() == "right")
 						Score[PlayerIndex.Two]++;
+					else if (metapuck.GetProperty<string>("winner").ToString() == "right")
+						Score[PlayerIndex.One]++;
 
 					metapuck.UnsetProperty("winner");
 
@@ -254,30 +312,36 @@ namespace CrossfireGame
 
 			if (input.HasFlag(Controller.Input.FireHeavy) || input.HasFlag(Controller.Input.FireLight))
 			{
-				if (!lastFiredTimes.ContainsKey(player) || (physicssteps - lastFiredTimes[player]) > FiringDelay)
-				{
-					var delta = new Vec2((float)System.Math.Cos(players[(int)player].GetAngle()), (float)System.Math.Sin(players[(int)player].GetAngle()));
-					var nextPos = players[(int)player].GetPosition() + delta * FiringDistance;
+				var delta = new Vec2((float)System.Math.Cos(players[(int)player].GetAngle()), (float)System.Math.Sin(players[(int)player].GetAngle()));
+				var nextPos = players[(int)player].GetPosition() + delta * FiringDistance;
 
-					BodyMetadata entData;
-					if (input.HasFlag(Controller.Input.FireHeavy))
-					{
-						entData = AbstractPhysics.CreateCircle(theWorld, 2, nextPos, delta * FiringPower, friction: 0);
-						entData.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 8);
-						entData.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
-					}
-					else
-					{
-						entData = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta * FiringPower, friction: 0);
-						entData.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 8);
-						entData.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
-					}
+				BodyMetadata entData;
+				if (input.HasFlag(Controller.Input.FireHeavy) && AmmoStore[player] > HeavyCost)
+				{
+					entData = AbstractPhysics.CreateCircle(theWorld, 2, nextPos, delta * FiringPower, friction: 0);
+					entData.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 8);
+					entData.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
+					AmmoStore[player] -= HeavyCost;
 
 					bullets.Add(entData.thisBody);
 
-					lastFiredTimes[player] = physicssteps;
+					AmmoStore[player] -= HeavyCost;
 				}
+				else if (input.HasFlag(Controller.Input.FireLight) && AmmoStore[player] > LightCost)
+				{
+					entData = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta * FiringPower, friction: 0);
+					entData.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 8);
+					entData.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
+					AmmoStore[player] -= LightCost;
+
+					bullets.Add(entData.thisBody);
+
+					AmmoStore[player] -= LightCost;
+				}
+				else { }
+
 			}
+
 		}
 
 		private int intRound(float d)

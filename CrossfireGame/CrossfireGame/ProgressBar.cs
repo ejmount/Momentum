@@ -15,7 +15,9 @@ using Microsoft.Xna.Framework.Storage;
     Rymarz L. (2009, 4, 3). Simple XNA Progress Bar 
     Available: http://lukerymarz.com/alearningexperience/2009/04/simple-xna-progress-bar.html
     Accessed: 2013/11/21
-    Used without significant modification.
+    Used with modification
+		* Texture2D constructor API changed between original implementation and present.
+		* SetPosition added.
 */
 
 /*
@@ -101,8 +103,9 @@ using Microsoft.Xna.Framework.Storage;
                 {
                     m_borderColorOuter = value;
                     outerData[0] = m_borderColorOuter;
-                    outerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                                TextureUsage.Linear, SurfaceFormat.Color);
+                    /*outerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                                TextureUsage.Linear, SurfaceFormat.Color);*/
+					outerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
                     outerTexture.SetData(outerData);
                 }
             }
@@ -139,8 +142,9 @@ using Microsoft.Xna.Framework.Storage;
                 {
                     m_borderColorInner = value;
                     innerData[0] = m_borderColorInner;
-                    innerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                                TextureUsage.Linear, SurfaceFormat.Color);
+                    /*innerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                                TextureUsage.Linear, SurfaceFormat.Color);*/
+					innerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
                     innerTexture.SetData(innerData);
                 }
             }
@@ -177,8 +181,9 @@ using Microsoft.Xna.Framework.Storage;
                     m_fillColor = value;
                     fillData[0] = m_fillColor;
                     fillTexture.Dispose();
-                    fillTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                                TextureUsage.Linear, SurfaceFormat.Color);
+                    /*fillTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                                TextureUsage.Linear, SurfaceFormat.Color);*/
+					fillTexture = new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
                     fillTexture.SetData(fillData);
                 }
             }
@@ -199,8 +204,9 @@ using Microsoft.Xna.Framework.Storage;
                 {
                     m_backgroundColor = value;
                     backgroundData[0] = m_backgroundColor;
-                    backgroundTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                            TextureUsage.Linear, SurfaceFormat.Color);
+                    /*backgroundTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                            TextureUsage.Linear, SurfaceFormat.Color);*/
+					backgroundTexture = new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
                     backgroundTexture.SetData(backgroundData);
                 }
             }
@@ -328,14 +334,18 @@ using Microsoft.Xna.Framework.Storage;
         public override void Initialize()
         {
             // create some textures.  These will actually be overwritten when colors are set below.
-            outerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                            TextureUsage.Linear, SurfaceFormat.Color);
-            innerTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                            TextureUsage.Linear, SurfaceFormat.Color);
-            backgroundTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                            TextureUsage.Linear, SurfaceFormat.Color);
-            fillTexture = new Texture2D(Game.GraphicsDevice, 1, 1, 1,
-                            TextureUsage.Linear, SurfaceFormat.Color);
+			outerTexture = /*new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                            TextureUsage.Linear, SurfaceFormat.Color);*/
+				new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
+            innerTexture = /*new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                            TextureUsage.Linear, SurfaceFormat.Color);*/
+				new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
+            backgroundTexture = /*new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                            TextureUsage.Linear, SurfaceFormat.Color);*/
+				new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
+			fillTexture = /*new Texture2D(Game.GraphicsDevice, 1, 1, 1,
+                            TextureUsage.Linear, SurfaceFormat.Color);*/
+						   new Texture2D(Game.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
 
             // initialize data arrays for building textures
             outerData = new Color[1];
@@ -358,6 +368,15 @@ using Microsoft.Xna.Framework.Storage;
 
             base.Initialize();
         }
+
+		/// <summary>
+		/// Move the origin of the progress bar.
+		/// </summary>
+		public void SetPosition(int left, int top)
+		{
+			m_borderOuterRect = new Rectangle(left, top, m_borderOuterRect.Width, m_borderOuterRect.Height);
+			UpdateRectangles();
+		}
 
         /// <summary>
         /// Calculates the rectangles for displaying the progress bar.  
