@@ -13,41 +13,39 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
-		private const float gunSize = 3;
-
+		private const int FiringDelay = 6;
 		private const float FiringDistance = 5;
 		private const float FiringPower = 20;
+		private const float gunSize = 3;
 		private const int PHYSICS_ITERATIONS = 10;
 		private readonly TimeSpan FRAMEDURATION = TimeSpan.FromSeconds(1 / 60.0);
+
 		private readonly Dictionary<PlayerIndex, string> playerBullets = new Dictionary<PlayerIndex, string>()
 		{
 			{PlayerIndex.One, "bullet_orange_hollow"},
 			{PlayerIndex.Two, "bullet_purple_hollow"},
 		};
 
-
-		private Texture2D white;
-
-		private World theWorld;
-
-		private Vec2 worldBounds = new Vec2(100, 100);
-		private Vec2 buffer = new Vec2(1, 1);
-
-		private float verticalScale;
-		private float horizScale;
-
-		private List<Body> players = new List<Body>();
 		private Dictionary<Body, Vec2> barriers = new Dictionary<Body, Vec2>();
+		private Vec2 buffer = new Vec2(1, 1);
 		private List<Body> bullets = new List<Body>();
-		private Dictionary<PlayerIndex, DateTime> lastFiredTimes = new Dictionary<PlayerIndex, DateTime>();
+		private float horizScale;
+		private Dictionary<PlayerIndex, int> lastFiredTimes = new Dictionary<PlayerIndex, int>();
+		private SpriteFont MenuFont;
+		private int physicssteps = 0;
+		private List<Body> players = new List<Body>();
+		private Body puck;
+		private Random RNG = new Random();
 		private Dictionary<PlayerIndex, int> Score = new Dictionary<PlayerIndex, int>
 		{
 			{PlayerIndex.One, 0},
 			{PlayerIndex.Two, 0},
 		};
 
-		private Body puck;
-
+		private World theWorld;
+		private float verticalScale;
+		private Texture2D white;
+		private Vec2 worldBounds = new Vec2(100, 100);
 		public GameMenu(Game1 g)
 			: base(g)
 		{
@@ -103,17 +101,12 @@ namespace CrossfireGame
 			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
 			(player1.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player1);
-	
-
 
 			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X - 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
 			(player2.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player2);
 		}
-
-		private SpriteFont MenuFont;
-
 		public override void Draw(GameTime time)
 		{
 			if (white == null)
@@ -169,21 +162,15 @@ namespace CrossfireGame
 				}
 			}
 
-			
-			sb.DrawString(MenuFont, Score[PlayerIndex.One].ToString(), 10* Vector2.UnitX, Microsoft.Xna.Framework.Color.Orange);
+			sb.DrawString(MenuFont, Score[PlayerIndex.One].ToString(), 10 * Vector2.UnitX, Microsoft.Xna.Framework.Color.Orange);
 
 			var size = MenuFont.MeasureString(Score[PlayerIndex.Two].ToString());
-			var textPos = new Vector2(parent.GraphicsDevice.Viewport.Width-size.X - 10, 0);
-		
-			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.Purple);
+			var textPos = new Vector2(parent.GraphicsDevice.Viewport.Width - size.X - 10, 0);
 
+			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.Purple);
 
 			sb.End();
 		}
-
-		private Random RNG = new Random();
-		private int physicssteps = 0;
-
 		public override void Update(GameTime time)
 		{
 			CheckWinner();
@@ -198,8 +185,6 @@ namespace CrossfireGame
 				theWorld.DestroyBody(g);
 				bullets.Remove(g);
 			}
-			
-
 
 			var steps = (int)System.Math.Round(time.ElapsedGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds);
 
@@ -246,7 +231,6 @@ namespace CrossfireGame
 						var metadata = (BodyMetadata)item.GetUserData();
 						metadata.expiry = TimeSpan.Zero;
 					}
-					//bullets.Clear();
 
 					puck.SetPosition(0.5f * worldBounds);
 					puck.SetLinearVelocity(Vec2.Zero);
@@ -267,32 +251,31 @@ namespace CrossfireGame
 			{
 				players[(int)player].ApplyImpulse(new Vec2(0, 1), players[(int)player].GetWorldCenter());
 			}
-		/*	if (input.HasFlag(Controller.Input.Left))
-			{
-				players[(int)player].ApplyImpulse(new Vec2(-1, 0), players[(int)player].GetWorldCenter());
-			}
-			if (input.HasFlag(Controller.Input.Right))
-			{
-				players[(int)player].ApplyImpulse(new Vec2(1, 0), players[(int)player].GetWorldCenter());
-			}*/
 
-			if (!lastFiredTimes.ContainsKey(player) || (DateTime.Now - lastFiredTimes[player]).TotalSeconds > 0.07)
+			if (input.HasFlag(Controller.Input.FireHeavy) || input.HasFlag(Controller.Input.FireLight))
 			{
-				if (input.HasFlag(Controller.Input.FireHeavy))
-				{
-				}
-				if (input.HasFlag(Controller.Input.FireLight))
+				if (!lastFiredTimes.ContainsKey(player) || (physicssteps - lastFiredTimes[player]) > FiringDelay)
 				{
 					var delta = new Vec2((float)System.Math.Cos(players[(int)player].GetAngle()), (float)System.Math.Sin(players[(int)player].GetAngle()));
 					var nextPos = players[(int)player].GetPosition() + delta * FiringDistance;
 
-					var metadata = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta * FiringPower, friction: 0);
-					metadata.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 10);
-					metadata.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
+					BodyMetadata entData;
+					if (input.HasFlag(Controller.Input.FireHeavy))
+					{
+						entData = AbstractPhysics.CreateCircle(theWorld, 2, nextPos, delta * FiringPower, friction: 0);
+						entData.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 8);
+						entData.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
+					}
+					else
+					{
+						entData = AbstractPhysics.CreateCircle(theWorld, 1, nextPos, delta * FiringPower, friction: 0);
+						entData.expiry = time.TotalGameTime + new TimeSpan(hours: 0, minutes: 0, seconds: 8);
+						entData.sprite = this.parent.GetContent<Texture2D>(playerBullets[player]);
+					}
 
-					bullets.Add(metadata.thisBody);
+					bullets.Add(entData.thisBody);
 
-					lastFiredTimes[player] = DateTime.Now;
+					lastFiredTimes[player] = physicssteps;
 				}
 			}
 		}
