@@ -30,6 +30,7 @@ namespace CrossfireGame
 						{Input.Left, Keys.A},
 						{Input.Right, Keys.D},
 						{Input.FireLight, Keys.Q},
+						{Input.FireHeavy, Keys.E}
 					}
 				},
 				{
@@ -39,7 +40,8 @@ namespace CrossfireGame
 						{Input.Down, Keys.Down},
 						{Input.Left, Keys.Left},
 						{Input.Right, Keys.Right},
-						{Input.FireLight, Keys.RightControl}
+						{Input.FireLight, Keys.RightControl},
+						{Input.FireHeavy, Keys.RightShift}
 					}
 				},
 			};
@@ -75,10 +77,15 @@ namespace CrossfireGame
 			}
 
 			if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.FireLight])
-				|| GamePad.GetState(P).Triggers.Right > 0.5
-				|| Keyboard.GetState(P).IsKeyDown(Keys.Z))
+				|| GamePad.GetState(P).Triggers.Right > 0.5)
 			{
 				o |= Input.FireLight;
+			}
+
+			if (Keyboard.GetState(P).IsKeyDown(keymapping[P][Input.FireHeavy])
+			|| GamePad.GetState(P).Triggers.Left > 0.5)
+			{
+				o |= Input.FireHeavy;
 			}
 
 			return o;
