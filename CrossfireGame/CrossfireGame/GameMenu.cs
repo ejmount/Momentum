@@ -169,16 +169,7 @@ namespace CrossfireGame
 				}
 			}
 
-			var garbage = bodies
-				.Where(B => B.GetUserData() != null)
-				.Where(B => time.TotalGameTime > (B.GetUserData() as BodyMetadata).expiry)
-				.ToList();
-
-			foreach (var g in garbage)
-			{
-				theWorld.DestroyBody(g);
-			}
-
+			
 			sb.DrawString(MenuFont, Score[PlayerIndex.One].ToString(), 10* Vector2.UnitX, Microsoft.Xna.Framework.Color.Orange);
 
 			var size = MenuFont.MeasureString(Score[PlayerIndex.Two].ToString());
@@ -195,19 +186,19 @@ namespace CrossfireGame
 
 		public override void Update(GameTime time)
 		{
-			if (puck.GetUserData() is BodyMetadata)
-			{
-				var metapuck = (BodyMetadata)puck.GetUserData();
-				if (metapuck.HasProperty("winner"))
-				{
-					if (metapuck.GetProperty<string>("winner").ToString() == "left")
-						Score[PlayerIndex.One]++;
-					else if (metapuck.GetProperty<string>("winner").ToString() == "right")
-						Score[PlayerIndex.Two]++;
+			CheckWinner();
 
-					metapuck.UnsetProperty("winner");
-				}
+			var garbage = bullets
+				.Where(B => B.GetUserData() != null)
+				.Where(B => time.TotalGameTime > (B.GetUserData() as BodyMetadata).expiry)
+				.ToList();
+
+			foreach (var g in garbage)
+			{
+				theWorld.DestroyBody(g);
+				bullets.Remove(g);
 			}
+			
 
 
 			var steps = (int)System.Math.Round(time.ElapsedGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds);
@@ -233,6 +224,33 @@ namespace CrossfireGame
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				this.parent.ChangeState(typeof(RootMenu));
+			}
+		}
+
+		private void CheckWinner()
+		{
+			if (puck.GetUserData() is BodyMetadata)
+			{
+				var metapuck = (BodyMetadata)puck.GetUserData();
+				if (metapuck.HasProperty("winner"))
+				{
+					if (metapuck.GetProperty<string>("winner").ToString() == "left")
+						Score[PlayerIndex.One]++;
+					else if (metapuck.GetProperty<string>("winner").ToString() == "right")
+						Score[PlayerIndex.Two]++;
+
+					metapuck.UnsetProperty("winner");
+
+					foreach (var item in bullets)
+					{
+						var metadata = (BodyMetadata)item.GetUserData();
+						metadata.expiry = TimeSpan.Zero;
+					}
+					//bullets.Clear();
+
+					puck.SetPosition(0.5f * worldBounds);
+					puck.SetLinearVelocity(Vec2.Zero);
+				}
 			}
 		}
 
