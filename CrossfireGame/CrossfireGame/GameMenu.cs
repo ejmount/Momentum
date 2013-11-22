@@ -225,7 +225,7 @@ namespace CrossfireGame
 			var size = MenuFont.MeasureString(Score[PlayerIndex.Two].ToString());
 			var textPos = new Vector2(parent.GraphicsDevice.Viewport.Width - size.X - 10, 0);
 
-			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.Purple);
+			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.MediumPurple);
 
 			sb.End();
 		}
