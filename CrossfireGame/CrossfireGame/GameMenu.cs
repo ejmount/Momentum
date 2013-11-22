@@ -14,14 +14,14 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
-		private const float Regeneration = 1 / 6f;
 		private const float AmmoLimit = 20;
-		private const float LightCost = 1;
-		private const float HeavyCost = 3;
 		private const float FiringDistance = 5;
 		private const float FiringPower = 20;
 		private const float gunSize = 3;
+		private const float HeavyCost = 3;
+		private const float LightCost = 1;
 		private const int PHYSICS_ITERATIONS = 10;
+		private const float Regeneration = 1 / 6f;
 		private readonly TimeSpan FRAMEDURATION = TimeSpan.FromSeconds(1 / 60.0);
 
 		private readonly Dictionary<PlayerIndex, string> playerBullets = new Dictionary<PlayerIndex, string>()
@@ -30,29 +30,31 @@ namespace CrossfireGame
 			{PlayerIndex.Two, "bullet_purple_hollow"},
 		};
 
-		private Dictionary<Body, Vec2> barriers = new Dictionary<Body, Vec2>();
-		private Vec2 buffer = new Vec2(1, 1);
-		private List<Body> bullets = new List<Body>();
-		private float horizScale;
-		//private Dictionary<PlayerIndex, int> lastFiredTimes = new Dictionary<PlayerIndex, int>();
 		private Dictionary<PlayerIndex, float> AmmoStore = new Dictionary<PlayerIndex, float>();
+		private List<Body> bullets = new List<Body>();
+		private SoundEffect fireEffect;
+		private SoundEffectInstance fireEffectInstance;
+		private SoundEffect winEffect;
+		private SoundEffectInstance winEffectInstance;
+		private float horizScale;
 		private SpriteFont MenuFont;
 		private int physicssteps = 0;
+		private List<ProgressBar> playerRateBars = new List<ProgressBar>();
 		private List<Body> players = new List<Body>();
 		private Body puck;
 		private Random RNG = new Random();
+
 		private Dictionary<PlayerIndex, int> Score = new Dictionary<PlayerIndex, int>
 		{
 			{PlayerIndex.One, 0},
 			{PlayerIndex.Two, 0},
 		};
 
-		private List<ProgressBar> playerRateBars = new List<ProgressBar>();
-
 		private World theWorld;
 		private float verticalScale;
 		private Texture2D white;
 		private Vec2 worldBounds = new Vec2(100, 100);
+
 		public GameMenu(Game1 g)
 			: base(g)
 		{
@@ -123,7 +125,6 @@ namespace CrossfireGame
 			p1bar.maximum = AmmoLimit;
 			playerRateBars.Add(p1bar);
 
-
 			ProgressBar p2bar = new ProgressBar(this.parent, new Rectangle(0, 0, 30, 10), ProgressBar.Orientation.HORIZONTAL_LR);
 			p2bar.Initialize();
 
@@ -144,15 +145,17 @@ namespace CrossfireGame
 			players.Add(player2);
 		}
 
-		SoundEffect fireEffect;
-		SoundEffectInstance fireEffectInstance;
-
 		public override void Draw(GameTime time)
 		{
 			if (fireEffect == null)
 			{
-				fireEffect= this.parent.GetContent<SoundEffect>("fire");
+				fireEffect = this.parent.GetContent<SoundEffect>("fire");
 				fireEffectInstance = fireEffect.CreateInstance();
+			}
+			if (winEffect == null)
+			{
+				winEffect = this.parent.GetContent<SoundEffect>("win");
+				winEffectInstance = winEffect.CreateInstance();
 			}
 
 			if (white == null)
@@ -161,10 +164,9 @@ namespace CrossfireGame
 			verticalScale = parent.GraphicsDevice.Viewport.Height / worldBounds.Y;
 			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
 
-
 			if (MenuFont == null)
 				MenuFont = this.parent.Content.Load<SpriteFont>("defaultFont");
-			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.				
+			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.
 
 			parent.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 			SpriteBatch sb = new SpriteBatch(parent.GraphicsDevice);
@@ -176,11 +178,9 @@ namespace CrossfireGame
 			playerRateBars[0].value = AmmoStore.ContainsKey(PlayerIndex.One) ? AmmoStore[PlayerIndex.One] : 0;
 			playerRateBars[0].Draw(sb);
 
-			playerRateBars[1].SetPosition(intRound(worldBounds.Y*horizScale - 40), intRound(players[1].GetPosition().Y * verticalScale) + 20);
+			playerRateBars[1].SetPosition(intRound(worldBounds.Y * horizScale - 40), intRound(players[1].GetPosition().Y * verticalScale) + 20);
 			playerRateBars[1].value = AmmoStore.ContainsKey(PlayerIndex.Two) ? AmmoStore[PlayerIndex.Two] : 0;
 			playerRateBars[1].Draw(sb);
-
-
 
 			var bodies = AbstractPhysics.GetBodies(theWorld);
 			foreach (var B in bodies)
@@ -229,6 +229,7 @@ namespace CrossfireGame
 
 			sb.End();
 		}
+
 		public override void Update(GameTime time)
 		{
 			for (int i = 0; i < players.Count; i++)
@@ -236,7 +237,6 @@ namespace CrossfireGame
 				if (!AmmoStore.ContainsKey((PlayerIndex)i)) AmmoStore[(PlayerIndex)i] = 0;
 				AmmoStore[(PlayerIndex)i] = System.Math.Min(AmmoStore[(PlayerIndex)i] + Regeneration, AmmoLimit);
 			}
-
 
 			CheckWinner();
 
@@ -271,8 +271,6 @@ namespace CrossfireGame
 				p++;
 			}
 
-
-
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				this.parent.ChangeState(typeof(RootMenu));
@@ -299,8 +297,16 @@ namespace CrossfireGame
 						metadata.expiry = TimeSpan.Zero;
 					}
 
+					foreach (var item in players)
+					{
+						item.SetPosition(new Vec2(item.GetPosition().X, worldBounds.Y / 2));
+						item.SetLinearVelocity(Vec2.Zero);
+					}
+
 					puck.SetPosition(0.5f * worldBounds);
 					puck.SetLinearVelocity(Vec2.Zero);
+
+					winEffectInstance.Play();
 				}
 			}
 		}
@@ -350,10 +356,7 @@ namespace CrossfireGame
 					fireEffectInstance.Play();
 				}
 				else { }
-				
-
 			}
-
 		}
 
 		private int intRound(float d)
