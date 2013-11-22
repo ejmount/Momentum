@@ -19,6 +19,7 @@ namespace CrossfireGame
 			{
 				foreach (var method in klass.GetMethods())
 				{
+					if (!method.GetCustomAttributes(typeof(CollisionMethod), false).Any()) continue;
 					if (!method.IsStatic) continue;
 					var param = method.GetParameters();
 					if (param.Length == 2 && method.ReturnType == typeof(UnsureBool))
