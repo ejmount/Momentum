@@ -21,7 +21,7 @@ namespace CrossfireGame
 				{
 					if (!method.IsStatic) continue;
 					var param = method.GetParameters();
-					if (param.Length == 2)// && method.ReturnType == typeof(UnsureBool))
+					if (param.Length == 2 && method.ReturnType == typeof(UnsureBool))
 					{
 						if (param[0].ParameterType == typeof(Fixture)
 							&& param[1].ParameterType == typeof(Fixture))
