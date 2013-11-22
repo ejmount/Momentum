@@ -5,6 +5,7 @@ using Box2DX.Collision;
 using Box2DX.Common;
 using Box2DX.Dynamics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,7 +15,7 @@ namespace CrossfireGame
 	internal class GameMenu : GameState
 	{
 		private const float Regeneration = 1 / 6f;
-		private const float AmmoLimit = 10;
+		private const float AmmoLimit = 20;
 		private const float LightCost = 1;
 		private const float HeavyCost = 3;
 		private const float FiringDistance = 5;
@@ -137,15 +138,23 @@ namespace CrossfireGame
 			p2bar.maximum = AmmoLimit;
 			playerRateBars.Add(p2bar);
 
-
 			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X - 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
 			(player2.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player2);
 		}
-		
+
+		SoundEffect fireEffect;
+		SoundEffectInstance fireEffectInstance;
+
 		public override void Draw(GameTime time)
 		{
+			if (fireEffect == null)
+			{
+				fireEffect= this.parent.GetContent<SoundEffect>("fire");
+				fireEffectInstance = fireEffect.CreateInstance();
+			}
+
 			if (white == null)
 				white = this.parent.GetContent<Texture2D>("white");
 
@@ -326,6 +335,7 @@ namespace CrossfireGame
 					bullets.Add(entData.thisBody);
 
 					AmmoStore[player] -= HeavyCost;
+					fireEffectInstance.Play();
 				}
 				else if (input.HasFlag(Controller.Input.FireLight) && AmmoStore[player] > LightCost)
 				{
@@ -337,8 +347,10 @@ namespace CrossfireGame
 					bullets.Add(entData.thisBody);
 
 					AmmoStore[player] -= LightCost;
+					fireEffectInstance.Play();
 				}
 				else { }
+				
 
 			}
 
