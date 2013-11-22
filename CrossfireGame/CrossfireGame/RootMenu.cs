@@ -10,8 +10,12 @@ namespace CrossfireGame
 {
 	internal class RootMenu : GameState
 	{
-		private List<Tuple<MenuItem, Type>> Options = new List<Tuple<MenuItem, Type>>();
+		private const float VERTICAL_MARGIN = 20;
 		private int currentOption = 0;
+		private SpriteFont MenuFont;
+		private Texture2D bullet;
+		private List<Tuple<MenuItem, Type>> Options = new List<Tuple<MenuItem, Type>>();
+		private VerticalInput prevInput = VerticalInput.Neutral;
 
 		public RootMenu(Game1 g)
 			: base(g)
@@ -42,13 +46,13 @@ namespace CrossfireGame
 			// ============================================================
 			// ============================================================
 		}
-
-		private const float MENU_HEIGHT = 100;
-		private const float VERTICAL_MARGIN = 20;
-		private SpriteFont MenuFont;
+		private enum VerticalInput { Neutral, Up, Down }
 
 		public override void Draw(GameTime time)
 		{
+			if (bullet == null)
+				bullet = this.parent.Content.Load<Texture2D>("bullet_orange_filled");
+
 			if (MenuFont == null)
 				MenuFont = this.parent.Content.Load<SpriteFont>("defaultFont");
 			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.
@@ -56,7 +60,18 @@ namespace CrossfireGame
 			parent.GraphicsDevice.Clear(Color.DarkBlue);
 			SpriteBatch sb = new SpriteBatch(parent.GraphicsDevice);
 
-			float currentHeight = MENU_HEIGHT;
+			//float currentHeight = MENU_HEIGHT;
+
+			float totalHeight = 0;
+
+			foreach (var curOptionindex in Enumerate(Options))
+			{
+				var curOption = curOptionindex.Item2;
+				var size = MenuFont.MeasureString(curOption.Item1.Name);
+				totalHeight += size.Y + VERTICAL_MARGIN;
+			}
+
+			float currentHeight = this.parent.GraphicsDevice.Viewport.Height / 3 - totalHeight / 2;
 
 			sb.Begin();
 			foreach (var curOptionindex in Enumerate(Options))
@@ -68,36 +83,25 @@ namespace CrossfireGame
 					X = this.parent.GraphicsDevice.Viewport.Width / 2 - size.X / 2,
 					Y = currentHeight
 				};
-				var col = (curOptionindex.Item1 == currentOption) ? Color.White : Color.DarkGray;
-				sb.DrawString(MenuFont, curOption.Item1.Name, pos, col);
+
+				var col = Color.DarkGray;
+
+				if ((curOptionindex.Item1 == currentOption))
+				{
+					col = Color.White;
+					sb.Draw(bullet, new Rectangle(IR(pos.X - bullet.Width - size.Y / 2), IR(pos.Y), IR(size.Y), IR(size.Y)), Color.White);
+				}
+					sb.DrawString(MenuFont, curOption.Item1.Name, pos, col);
 				currentHeight += size.Y + VERTICAL_MARGIN;
 			}
-			sb.DrawString(MenuFont, currentOption.ToString(), Vector2.Zero, Color.Purple);
 
 			sb.End();
 		}
-
-		private enum VerticalInput { Neutral, Up, Down }
-
-		private VerticalInput prevInput = VerticalInput.Neutral;
-
-		private int Clamp(int v, int l, int u)
+		private int IR(float f)
 		{
-			while (v >= u)
-				v -= (u - l);
-			while (v < l)
-				v += (u - l);
-			return v;
+			return (int)Math.Round(f);
 		}
 
-		private IEnumerable<Tuple<int, T>> Enumerate<T>(IEnumerable<T> e)
-		{
-			int i = 0;
-			foreach (var item in e)
-			{
-				yield return Tuple.Create(i++, item);
-			}
-		}
 
 		public override void Update(GameTime time)
 		{
@@ -133,6 +137,24 @@ namespace CrossfireGame
 			if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed
 				|| Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Enter))
 				this.parent.ChangeState(Options[currentOption].Item2);
+		}
+
+		private int Clamp(int v, int l, int u)
+		{
+			while (v >= u)
+				v -= (u - l);
+			while (v < l)
+				v += (u - l);
+			return v;
+		}
+
+		private IEnumerable<Tuple<int, T>> Enumerate<T>(IEnumerable<T> e)
+		{
+			int i = 0;
+			foreach (var item in e)
+			{
+				yield return Tuple.Create(i++, item);
+			}
 		}
 	}
 }
