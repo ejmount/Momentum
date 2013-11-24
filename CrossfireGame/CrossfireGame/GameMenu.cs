@@ -55,6 +55,8 @@ namespace CrossfireGame
 		private Texture2D white;
 		private Vec2 worldBounds = new Vec2(100, 100);
 
+		private bool Scored = false;
+
 		public GameMenu(Game1 g)
 			: base(g)
 		{
@@ -147,6 +149,9 @@ namespace CrossfireGame
 
 		public override void Draw(GameTime time)
 		{
+		
+
+
 			if (fireEffect == null)
 			{
 				fireEffect = this.parent.GetContent<SoundEffect>("fire");
@@ -227,7 +232,40 @@ namespace CrossfireGame
 
 			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.MediumPurple);
 
+			if (!Scored)
+			{
+				DrawGuides(sb);
+			}
+
 			sb.End();
+		}
+
+		private void DrawGuides(SpriteBatch sb)
+		{
+			sb.DrawString(MenuFont, "W", new Vector2(15, this.parent.GraphicsDevice.Viewport.Height / 2 - 70), Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, "S", new Vector2(15, this.parent.GraphicsDevice.Viewport.Height / 2 + 50), Microsoft.Xna.Framework.Color.White);
+
+			sb.DrawString(MenuFont, "^", new Vector2( this.parent.GraphicsDevice.Viewport.Width - 35, this.parent.GraphicsDevice.Viewport.Height / 2 - 70), Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, "\\/", new Vector2(this.parent.GraphicsDevice.Viewport.Width - 35, this.parent.GraphicsDevice.Viewport.Height / 2 + 50), Microsoft.Xna.Framework.Color.White);
+
+			
+			var SP1 = this.parent.GetContent<Texture2D>(playerBullets[PlayerIndex.One]);
+
+			sb.Draw(SP1, new Vector2(50, this.parent.GraphicsDevice.Viewport.Height / 2 - 100), null, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+			sb.Draw(SP1, new Vector2(100, this.parent.GraphicsDevice.Viewport.Height / 2 - 100), null, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
+
+			sb.DrawString(MenuFont, "Q", new Vector2(50, this.parent.GraphicsDevice.Viewport.Height / 2 - 140), Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, "E", new Vector2(110, this.parent.GraphicsDevice.Viewport.Height / 2 - 140), Microsoft.Xna.Framework.Color.White);
+
+
+			var SP2 = this.parent.GetContent<Texture2D>(playerBullets[PlayerIndex.Two]);
+
+			sb.Draw(SP2, new Vector2(this.parent.GraphicsDevice.Viewport.Width - 100, this.parent.GraphicsDevice.Viewport.Height / 2 - 100), null, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+			sb.Draw(SP2, new Vector2(this.parent.GraphicsDevice.Viewport.Width - 200, this.parent.GraphicsDevice.Viewport.Height / 2 - 100), null, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
+
+			sb.DrawString(MenuFont, "R-ctrl", new Vector2(this.parent.GraphicsDevice.Viewport.Width - 110, this.parent.GraphicsDevice.Viewport.Height / 2 - 140), Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, "R-shift", new Vector2(this.parent.GraphicsDevice.Viewport.Width - 240, this.parent.GraphicsDevice.Viewport.Height / 2 - 140), Microsoft.Xna.Framework.Color.White);
+
 		}
 
 		public override void Update(GameTime time)
@@ -307,6 +345,7 @@ namespace CrossfireGame
 					puck.SetLinearVelocity(Vec2.Zero);
 
 					winEffectInstance.Play();
+					Scored = true;
 				}
 			}
 		}
