@@ -19,7 +19,17 @@ namespace CrossfireGame
 			FireLight = 1 << 6,
 		}
 
-		public static readonly Dictionary<PlayerIndex, Dictionary<Input, Keys>> keymapping =
+		static private Controller inst;
+
+		public static Controller GetController()
+		{
+			if (inst == null)
+				inst = new Controller();
+			return inst;
+		}
+
+
+		public readonly Dictionary<PlayerIndex, Dictionary<Input, Keys>> keymapping =
 			new Dictionary<PlayerIndex, Dictionary<Input, Keys>>()
 			{
 				{
@@ -46,7 +56,7 @@ namespace CrossfireGame
 				},
 			};
 
-		public static Input InterpretInput(PlayerIndex P)
+		public Input InterpretInput(PlayerIndex P)
 		{
 			Input o = Input.None;
 

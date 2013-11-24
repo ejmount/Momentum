@@ -311,6 +311,8 @@ namespace CrossfireGame
 			}
 		}
 
+		private Controller Controller = Controller.GetController();
+
 		private void InterpretInput(GameTime time, PlayerIndex player)
 		{
 			var input = Controller.InterpretInput(player);
