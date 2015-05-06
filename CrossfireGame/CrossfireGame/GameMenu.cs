@@ -14,47 +14,91 @@ namespace CrossfireGame
 	[MenuItem("Start Game", 1)]
 	internal class GameMenu : GameState
 	{
+		// The maximum amount of ammo its possible to have at one time.
 		private const float AmmoLimit = 20;
+
+		// The distance (in physics units) that bullets spawn away from the players
 		private const float FiringDistance = 5;
+
+		// The speed of a newly created bullet.
 		private const float FiringPower = 20;
+
+		// The size of the guns, in physics units.
 		private const float gunSize = 3;
+
+		// How much ammo it costs to fire a heavy bullet.
 		private const float HeavyCost = 3;
+
+		// How much ammo it costs to fire a small bullet.
 		private const float LightCost = 1;
+
+		// The maximum number of passes the constraint solver can take per physics iteration.
 		private const int PHYSICS_ITERATIONS = 10;
-		private const float Regeneration = 1 / 6f;
+
+		// How much ammo is regained by the players per frame. 
+		private const float Regeneration = 1 / 6f; // 1 unit per 1/10 seconds.
+
+		// How much real-time physics should happen in one game frame. 
 		private readonly TimeSpan FRAMEDURATION = TimeSpan.FromSeconds(1 / 60.0);
 
+		// The image names for each players bullets.
 		private readonly Dictionary<PlayerIndex, string> playerBullets = new Dictionary<PlayerIndex, string>()
 		{
 			{PlayerIndex.One, "bullet_orange_hollow"},
 			{PlayerIndex.Two, "bullet_purple_hollow"},
 		};
 
+
+		// How much ammo each player has at each time.
 		private Dictionary<PlayerIndex, float> AmmoStore = new Dictionary<PlayerIndex, float>();
+
+		// All of the bullets currently in play, from all players.
 		private List<Body> bullets = new List<Body>();
+
+		// Sound effect classes. 
 		private SoundEffect fireEffect;
 		private SoundEffectInstance fireEffectInstance;
 		private SoundEffect winEffect;
 		private SoundEffectInstance winEffectInstance;
-		private float horizScale;
-		private SpriteFont MenuFont;
-		private int physicssteps = 0;
-		private List<ProgressBar> playerRateBars = new List<ProgressBar>();
-		private List<Body> players = new List<Body>();
-		private Body puck;
-		private Random RNG = new Random();
 
+		// Ratio of horizontal graphical units to vert. physics units. If this is >1, the view area is greater than the physics area. 
+		private float horizScale;
+
+		// The font used in all the text. 
+		private SpriteFont MenuFont;
+
+		// The total number of physics steps executed
+		private int physicssteps = 0;
+
+		// The progress bars used to indicate each player's current ammo. PlayerOne -> playerRateBars[0]
+		private List<ProgressBar> playerRateBars = new List<ProgressBar>();
+
+		// The actual physics entities represneting the players. 
+		private List<Body> players = new List<Body>();
+
+		// The physics entity for the central puck.
+		private Body puck;
+
+		// Current scores, per player.
 		private Dictionary<PlayerIndex, int> Score = new Dictionary<PlayerIndex, int>
 		{
 			{PlayerIndex.One, 0},
 			{PlayerIndex.Two, 0},
 		};
 
+		// The physics model. 
 		private World theWorld;
+
+		// Ratio of horizontal graphical units to vert. physics units. If this is >1, the view area is greater than the physics area. 
 		private float verticalScale;
+
+		// A default texture. This isn't actually used, assuming everything loads correctly.
 		private Texture2D white;
+
+		// The size of the physics world, in physics units. 
 		private Vec2 worldBounds = new Vec2(100, 100);
 
+		// Has someone scored yet? 
 		private bool Scored = false;
 
 		public GameMenu(Game1 g)
@@ -94,64 +138,57 @@ namespace CrossfireGame
 			// left barrier.
 			var leftBar = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(3 + gunSize, worldBounds.Y / 2), Vec2.Zero, density: 0);
 			leftBar.color = Microsoft.Xna.Framework.Color.Red;
-
 			leftBar.SetProperty("polarization", new Vec2(1, 0));
 			leftBar.SetProperty("edge", "left");
 
 			// right barrier.
 			var rightBar = AbstractPhysics.CreateBox(theWorld, 0.1f, worldBounds.Y, new Vec2(worldBounds.X - (3 + gunSize), worldBounds.Y / 2), Vec2.Zero, density: 0);
 			rightBar.color = Microsoft.Xna.Framework.Color.Red;
-
 			rightBar.SetProperty("polarization", new Vec2(-1, 0));
 			rightBar.SetProperty("edge", "right");
 
-			//theWorld.SetContactFilter(new OneWayFilter(barriers));
+
 			theWorld.SetContactFilter(CollisionManager.getInstance());
+
 
 			var player1 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
 			(player1.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P1_Gun_67x40");
 			(player1.GetUserData() as BodyMetadata).Cat = Category.Transparent;
 			players.Add(player1);
 
+			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X - 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
+			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
+			(player2.GetUserData() as BodyMetadata).Cat = Category.Transparent;
+			players.Add(player2);
+
 			ProgressBar p1bar = new ProgressBar(this.parent, new Rectangle(0, 0, 30, 10), ProgressBar.Orientation.HORIZONTAL_LR);
 			p1bar.Initialize();
-
 			p1bar.backgroundColor = Microsoft.Xna.Framework.Color.Black;
 			p1bar.borderColorOuter = Microsoft.Xna.Framework.Color.Orange;
 			p1bar.borderColorInner = Microsoft.Xna.Framework.Color.Black;
 			p1bar.fillColor = Microsoft.Xna.Framework.Color.OrangeRed;
 			p1bar.borderThicknessInner = 0;
 			p1bar.borderThicknessOuter = 2;
-
 			p1bar.minimum = 0;
 			p1bar.maximum = AmmoLimit;
 			playerRateBars.Add(p1bar);
 
 			ProgressBar p2bar = new ProgressBar(this.parent, new Rectangle(0, 0, 30, 10), ProgressBar.Orientation.HORIZONTAL_LR);
 			p2bar.Initialize();
-
 			p2bar.backgroundColor = Microsoft.Xna.Framework.Color.Black;
 			p2bar.borderColorOuter = Microsoft.Xna.Framework.Color.Purple;
 			p2bar.borderColorInner = Microsoft.Xna.Framework.Color.Black;
 			p2bar.fillColor = Microsoft.Xna.Framework.Color.MediumPurple;
 			p2bar.borderThicknessInner = 0;
 			p2bar.borderThicknessOuter = 2;
-
 			p2bar.minimum = 0;
 			p2bar.maximum = AmmoLimit;
 			playerRateBars.Add(p2bar);
 
-			var player2 = AbstractPhysics.CreateBox(theWorld, gunSize, gunSize, new Vec2(worldBounds.X - 3, worldBounds.Y / 2), Vec2.Zero, density: 1 / 9f, friction: 0).thisBody;
-			(player2.GetUserData() as BodyMetadata).sprite = this.parent.GetContent<Texture2D>("P2_Gun_67x40");
-			(player2.GetUserData() as BodyMetadata).Cat = Category.Transparent;
-			players.Add(player2);
 		}
 
 		public override void Draw(GameTime time)
 		{
-		
-
-
 			if (fireEffect == null)
 			{
 				fireEffect = this.parent.GetContent<SoundEffect>("fire");
@@ -166,12 +203,15 @@ namespace CrossfireGame
 			if (white == null)
 				white = this.parent.GetContent<Texture2D>("white");
 
-			verticalScale = parent.GraphicsDevice.Viewport.Height / worldBounds.Y;
-			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
-
 			if (MenuFont == null)
 				MenuFont = this.parent.Content.Load<SpriteFont>("defaultFont");
-			// Lazily initialized because I couldn't get the initialization ordering with LoadContent right.
+
+			// Assets are lazily initialized because I couldn't get the initialization ordering with LoadContent right.
+
+
+			verticalScale = parent.GraphicsDevice.Viewport.Height / worldBounds.Y;
+			horizScale = parent.GraphicsDevice.Viewport.Width / worldBounds.X;
+			// These are recalculated every frame in case the window size changes.
 
 			parent.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 			SpriteBatch sb = new SpriteBatch(parent.GraphicsDevice);
@@ -179,6 +219,7 @@ namespace CrossfireGame
 			sb.Begin();
 
 			// Code is duplicated because it's simpler than a loop and margin calculations.
+			// Draw the progress bars.
 			playerRateBars[0].SetPosition(5, intRound(players[0].GetPosition().Y * verticalScale) + 20);
 			playerRateBars[0].value = AmmoStore.ContainsKey(PlayerIndex.One) ? AmmoStore[PlayerIndex.One] : 0;
 			playerRateBars[0].Draw(sb);
@@ -187,6 +228,7 @@ namespace CrossfireGame
 			playerRateBars[1].value = AmmoStore.ContainsKey(PlayerIndex.Two) ? AmmoStore[PlayerIndex.Two] : 0;
 			playerRateBars[1].Draw(sb);
 
+			// Draw all the bodies in the world.
 			var bodies = AbstractPhysics.GetBodies(theWorld);
 			foreach (var B in bodies)
 			{
@@ -225,11 +267,13 @@ namespace CrossfireGame
 				}
 			}
 
+			// Draw player one's score.
 			sb.DrawString(MenuFont, Score[PlayerIndex.One].ToString(), 10 * Vector2.UnitX, Microsoft.Xna.Framework.Color.Orange);
 
+
+			// Draw player 2's score. This is more complicated because we need to calculate the top-right corner.
 			var size = MenuFont.MeasureString(Score[PlayerIndex.Two].ToString());
 			var textPos = new Vector2(parent.GraphicsDevice.Viewport.Width - size.X - 10, 0);
-
 			sb.DrawString(MenuFont, Score[PlayerIndex.Two].ToString(), textPos, Microsoft.Xna.Framework.Color.MediumPurple);
 
 			if (!Scored)
@@ -240,15 +284,16 @@ namespace CrossfireGame
 			sb.End();
 		}
 
+		/// Draw the instructional UI.
 		private void DrawGuides(SpriteBatch sb)
 		{
 			sb.DrawString(MenuFont, "W", new Vector2(15, this.parent.GraphicsDevice.Viewport.Height / 2 - 70), Microsoft.Xna.Framework.Color.White);
 			sb.DrawString(MenuFont, "S", new Vector2(15, this.parent.GraphicsDevice.Viewport.Height / 2 + 50), Microsoft.Xna.Framework.Color.White);
 
-			sb.DrawString(MenuFont, "^", new Vector2( this.parent.GraphicsDevice.Viewport.Width - 35, this.parent.GraphicsDevice.Viewport.Height / 2 - 70), Microsoft.Xna.Framework.Color.White);
+			sb.DrawString(MenuFont, "^", new Vector2(this.parent.GraphicsDevice.Viewport.Width - 35, this.parent.GraphicsDevice.Viewport.Height / 2 - 70), Microsoft.Xna.Framework.Color.White);
 			sb.DrawString(MenuFont, "\\/", new Vector2(this.parent.GraphicsDevice.Viewport.Width - 35, this.parent.GraphicsDevice.Viewport.Height / 2 + 50), Microsoft.Xna.Framework.Color.White);
 
-			
+
 			var SP1 = this.parent.GetContent<Texture2D>(playerBullets[PlayerIndex.One]);
 
 			sb.Draw(SP1, new Vector2(50, this.parent.GraphicsDevice.Viewport.Height / 2 - 100), null, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
@@ -270,19 +315,23 @@ namespace CrossfireGame
 
 		public override void Update(GameTime time)
 		{
+			// Players' regain ammo. 
 			for (int i = 0; i < players.Count; i++)
 			{
 				if (!AmmoStore.ContainsKey((PlayerIndex)i)) AmmoStore[(PlayerIndex)i] = 0;
 				AmmoStore[(PlayerIndex)i] = System.Math.Min(AmmoStore[(PlayerIndex)i] + Regeneration, AmmoLimit);
 			}
 
+			// Has someone hit their opponent's goal?
 			CheckWinner();
 
+			// Find a list of all the expired bullets.
 			var garbage = bullets
 				.Where(B => B.GetUserData() != null)
 				.Where(B => time.TotalGameTime > (B.GetUserData() as BodyMetadata).expiry)
 				.ToList();
 
+			// Seperate loop beause it gets annoyed if we modify the collection we're iterating over. 
 			foreach (var g in garbage)
 			{
 				theWorld.DestroyBody(g);
@@ -291,12 +340,14 @@ namespace CrossfireGame
 
 			var steps = (int)System.Math.Round(time.ElapsedGameTime.TotalMilliseconds / FRAMEDURATION.TotalMilliseconds);
 
+			// Run the physics the correct number of steps.
 			for (int i = 0; i < steps; i++)
 			{
 				theWorld.Step((float)FRAMEDURATION.TotalSeconds, PHYSICS_ITERATIONS, PHYSICS_ITERATIONS);
 				physicssteps++;
 			}
 
+			// This block re-aims the players to point towards the puck.
 			int p = 0;
 			foreach (var player in players)
 			{
@@ -309,6 +360,7 @@ namespace CrossfireGame
 				p++;
 			}
 
+			// Just check for leaving towards the menu.
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				this.parent.ChangeState(typeof(RootMenu));
@@ -352,6 +404,7 @@ namespace CrossfireGame
 
 		private Controller Controller = Controller.GetController();
 
+		// Check for player input, act accordingly.
 		private void InterpretInput(GameTime time, PlayerIndex player)
 		{
 			var input = Controller.InterpretInput(player);
@@ -400,6 +453,7 @@ namespace CrossfireGame
 			}
 		}
 
+		// Because Math.Round returns a double for some reason. 
 		private int intRound(float d)
 		{
 			return (int)System.Math.Round(d);
